@@ -1,0 +1,579 @@
+{
+ "code": {
+  "commit": "41c0bf2f42f84ad107ba71cde40672081ac0e5a3",
+  "dirty": false,
+  "remote": "https://github.com/raoulg/MADS-MachineLearning-course.git"
+ },
+ "lesson": 2,
+ "run": {
+  "artifacts": {
+   "architecture.json": {
+    "input_shape": [
+     2,
+     187,
+     1
+    ],
+    "layers": [
+     {
+      "depth": 0,
+      "input_shape": [
+       2,
+       187,
+       1
+      ],
+      "leaf": false,
+      "name": "Beats",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": null,
+      "type": "Beats"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       187,
+       1
+      ],
+      "leaf": true,
+      "name": "noise",
+      "output_shape": [
+       2,
+       187,
+       1
+      ],
+      "params": 0,
+      "type": "GaussianNoise"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       187,
+       1
+      ],
+      "leaf": false,
+      "name": "narrow",
+      "output_shape": [
+       2,
+       187,
+       17
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       1,
+       187
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       17,
+       187
+      ],
+      "params": 170,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       187,
+       17
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       187,
+       17
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       187,
+       17
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       187,
+       17
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 4,
+      "input_shape": [
+       2,
+       17,
+       187
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       17,
+       187
+      ],
+      "params": 2618,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       187,
+       17
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       187,
+       17
+      ],
+      "params": 0,
+      "type": "GELU"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       187,
+       17
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       93,
+       17
+      ],
+      "params": null,
+      "type": "Pool1D"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       17,
+       187
+      ],
+      "leaf": true,
+      "name": "pool",
+      "output_shape": [
+       2,
+       17,
+       93
+      ],
+      "params": 0,
+      "type": "MaxPool1d"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       93,
+       17
+      ],
+      "leaf": false,
+      "name": "1",
+      "output_shape": [
+       2,
+       93,
+       17
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       93,
+       17
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       93,
+       17
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 4,
+      "input_shape": [
+       2,
+       17,
+       93
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       17,
+       93
+      ],
+      "params": 2618,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       93,
+       17
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       93,
+       17
+      ],
+      "params": 0,
+      "type": "GELU"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       93,
+       17
+      ],
+      "leaf": false,
+      "name": "1",
+      "output_shape": [
+       2,
+       46,
+       17
+      ],
+      "params": null,
+      "type": "Pool1D"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       17,
+       93
+      ],
+      "leaf": true,
+      "name": "pool",
+      "output_shape": [
+       2,
+       17,
+       46
+      ],
+      "params": 0,
+      "type": "MaxPool1d"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       782
+      ],
+      "leaf": true,
+      "name": "drop",
+      "output_shape": [
+       2,
+       782
+      ],
+      "params": 0,
+      "type": "Dropout"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       782
+      ],
+      "leaf": true,
+      "name": "classifier",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": 2349,
+      "type": "Linear"
+     }
+    ],
+    "n_params": 7755,
+    "n_trainable": 7755,
+    "output_shape": [
+     2,
+     3
+    ],
+    "signature": "GaussianNoise > Conv1d(187->187) > Conv1d(187->187) > GELU > MaxPool1d > Conv1d(93->93) > GELU > MaxPool1d > Dropout > Linear(782->3)",
+    "summary": "===================================================================================================================\nLayer (type:depth-idx)                   Input Shape               Output Shape              Param #\n===================================================================================================================\nBeats                                    [2, 187, 1]               [2, 3]                    --\n\u251c\u2500GaussianNoise: 1-1                     [2, 187, 1]               [2, 187, 1]               --\n\u251c\u2500Conv1D: 1-2                            [2, 187, 1]               [2, 187, 17]              --\n\u2502    \u2514\u2500Conv1d: 2-1                       [2, 1, 187]               [2, 17, 187]              170\n\u251c\u2500ModuleList: 1-5                        --                        --                        (recursive)\n\u2502    \u2514\u2500Sequential: 2-2                   [2, 187, 17]              [2, 187, 17]              --\n\u2502    \u2502    \u2514\u2500Conv1D: 3-1                  [2, 187, 17]              [2, 187, 17]              --\n\u2502    \u2502    \u2502    \u2514\u2500Conv1d: 4-1             [2, 17, 187]              [2, 17, 187]              2,618\n\u2502    \u2502    \u2514\u2500GELU: 3-2                    [2, 187, 17]              [2, 187, 17]              --\n\u251c\u2500ModuleList: 1-6                        --                        --                        --\n\u2502    \u2514\u2500Pool1D: 2-3                       [2, 187, 17]              [2, 93, 17]               --\n\u2502    \u2502    \u2514\u2500MaxPool1d: 3-3               [2, 17, 187]              [2, 17, 93]               --\n\u251c\u2500ModuleList: 1-5                        --                        --                        (recursive)\n\u2502    \u2514\u2500Sequential: 2-4                   [2, 93, 17]               [2, 93, 17]               --\n\u2502    \u2502    \u2514\u2500Conv1D: 3-4                  [2, 93, 17]               [2, 93, 17]               --\n\u2502    \u2502    \u2502    \u2514\u2500Conv1d: 4-2             [2, 17, 93]               [2, 17, 93]               2,618\n\u2502    \u2502    \u2514\u2500GELU: 3-5                    [2, 93, 17]               [2, 93, 17]               --\n\u251c\u2500ModuleList: 1-6                        --                        --                        --\n\u2502    \u2514\u2500Pool1D: 2-5                       [2, 93, 17]               [2, 46, 17]               --\n\u2502    \u2502    \u2514\u2500MaxPool1d: 3-6               [2, 17, 93]               [2, 17, 46]               --\n\u251c\u2500Dropout: 1-7                           [2, 782]                  [2, 782]                  --\n\u251c\u2500Linear: 1-8                            [2, 782]                  [2, 3]                    2,349\n===================================================================================================================\nTotal params: 7,755\nTrainable params: 7,755\nNon-trainable params: 0\nTotal mult-adds (Units.MEGABYTES): 1.53\n===================================================================================================================\nInput size (MB): 0.00\nForward/backward pass size (MB): 0.13\nParams size (MB): 0.03\nEstimated Total Size (MB): 0.16\n==================================================================================================================="
+   }
+  },
+  "attrs": {
+   "accuracy": [
+    0.88778,
+    0.90507,
+    0.89804,
+    0.91929,
+    0.89456,
+    0.8229,
+    0.87509,
+    0.90256
+   ],
+   "architecture": "GaussianNoise > Conv1d(187->187) > Conv1d(187->187) > GELU > MaxPool1d > Conv1d(93->93) > GELU > MaxPool1d > Dropout > Linear(782->3)",
+   "channels": 1,
+   "class_weight": 0.0,
+   "config": {
+    "class_weight": 0.0,
+    "dataset": "mitbih",
+    "depth": 2,
+    "downsample": "pool",
+    "epochs": 8,
+    "excite": false,
+    "fold": false,
+    "gate": false,
+    "kernel_size": 9,
+    "lr": 0.0007150545865050225,
+    "parallel": false,
+    "skip": false,
+    "state": false,
+    "width": 17
+   },
+   "confusion": {
+    "classes": [
+     "N",
+     "S",
+     "V"
+    ],
+    "counts": [
+     [
+      10517,
+      107,
+      360
+     ],
+     [
+      212,
+      5,
+      165
+     ],
+     [
+      360,
+      2,
+      649
+     ]
+    ]
+   },
+   "dataset": "mitbih",
+   "epochs": 8,
+   "excite": false,
+   "fold": false,
+   "macro_recall": [
+    0.33795,
+    0.45457,
+    0.5158,
+    0.53655,
+    0.53719,
+    0.51058,
+    0.54575,
+    0.5375
+   ],
+   "metrics": {
+    "accuracy": 0.90256,
+    "f1": {
+     "N": 0.95293,
+     "S": 0.02016,
+     "V": 0.59405
+    },
+    "macro_recall": 0.5375,
+    "precision": {
+     "N": 0.94842,
+     "S": 0.04386,
+     "V": 0.55281
+    },
+    "recall": {
+     "N": 0.95748,
+     "S": 0.01309,
+     "V": 0.64194
+    }
+   },
+   "n_params": 7755,
+   "parallel": false,
+   "role": "trial",
+   "run_id": "a9d6c59fb13d4947b058e8565557a138",
+   "session": "2026-11-17 13:54:35",
+   "state": false,
+   "steps": 187,
+   "test_loss": [
+    0.47817,
+    0.43906,
+    0.47792,
+    0.4812,
+    0.50583,
+    0.7189,
+    0.58201,
+    0.5559
+   ],
+   "train_loss": [
+    0.3009,
+    0.10904,
+    0.06419,
+    0.0529,
+    0.04708,
+    0.04296,
+    0.03992,
+    0.03731
+   ],
+   "train_seconds": 8.131
+  },
+  "distributions": {
+   "depth": {
+    "attributes": {
+     "high": 5,
+     "log": false,
+     "low": 1,
+     "step": 1
+    },
+    "name": "IntDistribution"
+   },
+   "downsample": {
+    "attributes": {
+     "choices": [
+      "pool",
+      "stride"
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "gate": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "kernel_size": {
+    "attributes": {
+     "choices": [
+      3,
+      5,
+      9
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "lr": {
+    "attributes": {
+     "high": 0.003,
+     "log": true,
+     "low": 0.0003,
+     "step": null
+    },
+    "name": "FloatDistribution"
+   },
+   "skip": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "width": {
+    "attributes": {
+     "high": 128,
+     "log": true,
+     "low": 8,
+     "step": 1
+    },
+    "name": "IntDistribution"
+   }
+  },
+  "end_time": 1794920526011,
+  "experiment": "lesson2-notebook",
+  "intermediate": [
+   {
+    "step": 0,
+    "value": 0.3379451128626622
+   },
+   {
+    "step": 1,
+    "value": 0.4545680723792269
+   },
+   {
+    "step": 2,
+    "value": 0.5158030683956555
+   },
+   {
+    "step": 3,
+    "value": 0.5365451783048438
+   },
+   {
+    "step": 4,
+    "value": 0.5371936286271155
+   },
+   {
+    "step": 5,
+    "value": 0.5105750467687568
+   },
+   {
+    "step": 6,
+    "value": 0.5457460079054064
+   },
+   {
+    "step": 7,
+    "value": 0.5375037641141795
+   }
+  ],
+  "params": {
+   "depth": 2,
+   "downsample": "pool",
+   "gate": false,
+   "kernel_size": 9,
+   "lr": 0.0007150545865050225,
+   "skip": false,
+   "width": 17
+  },
+  "run_id": "a9d6c59fb13d4947b058e8565557a138",
+  "run_name": "trial-21",
+  "start_time": 1794920515174,
+  "status": "COMPLETE",
+  "study": {
+   "attrs": {
+    "idea": "lesson 2 as handed out",
+    "idea_author": "course",
+    "idea_id": "8adfe3f5179d2b0b66a7019536326491b4b598e688d1822c09b192f1ce575c74",
+    "idea_name": "mesmerizing-wildcat-27",
+    "idea_parents": "",
+    "objective": "macro_recall",
+    "origin": "notebook",
+    "search_space": "dataset=mitbih | kernel_size in {3,5,9} | width ~ logint(8, 128) | depth ~ int(1, 5) | downsample in {pool,stride} | skip in {false,true} | gate in {false,true} | parallel=false | fold=false | excite=false | state=false | class_weight=0 | lr ~ logU(3e-4, 3e-3) | epochs=8",
+    "searched_axes": "depth,downsample,gate,kernel_size,lr,skip,width"
+   },
+   "direction": "maximize"
+  },
+  "value": 0.5375037641141795
+ },
+ "schema": "mads-run/2",
+ "student": "raoulg",
+ "submitted_at": "2026-11-17T13:04:56Z"
+}

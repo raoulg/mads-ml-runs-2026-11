@@ -1,0 +1,282 @@
+{
+ "code": {
+  "commit": "41c0bf2f42f84ad107ba71cde40672081ac0e5a3",
+  "dirty": false,
+  "remote": "https://github.com/raoulg/MADS-MachineLearning-course.git"
+ },
+ "lesson": 2,
+ "run": {
+  "artifacts": {
+   "architecture.json": {
+    "input_shape": [
+     2,
+     187,
+     1
+    ],
+    "layers": [
+     {
+      "depth": 0,
+      "input_shape": [
+       2,
+       187,
+       1
+      ],
+      "leaf": false,
+      "name": "Sequential",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       187,
+       1
+      ],
+      "leaf": true,
+      "name": "0",
+      "output_shape": [
+       2,
+       187
+      ],
+      "params": 0,
+      "type": "Flatten"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       187
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": 564,
+      "type": "Linear"
+     }
+    ],
+    "n_params": 564,
+    "n_trainable": 564,
+    "output_shape": [
+     2,
+     3
+    ],
+    "signature": "Flatten > Linear(187->3)",
+    "summary": "===================================================================================================================\nLayer (type:depth-idx)                   Input Shape               Output Shape              Param #\n===================================================================================================================\nSequential                               [2, 187, 1]               [2, 3]                    --\n\u251c\u2500Flatten: 1-1                           [2, 187, 1]               [2, 187]                  --\n\u251c\u2500Linear: 1-2                            [2, 187]                  [2, 3]                    564\n===================================================================================================================\nTotal params: 564\nTrainable params: 564\nNon-trainable params: 0\nTotal mult-adds (Units.MEGABYTES): 0.00\n===================================================================================================================\nInput size (MB): 0.00\nForward/backward pass size (MB): 0.00\nParams size (MB): 0.00\nEstimated Total Size (MB): 0.00\n==================================================================================================================="
+   }
+  },
+  "attrs": {
+   "accuracy_std": 4e-05,
+   "architecture": "Flatten > Linear(187->3)",
+   "confusion": {
+    "classes": [
+     "N",
+     "S",
+     "V"
+    ],
+    "counts": [
+     [
+      32930,
+      0,
+      22
+     ],
+     [
+      880,
+      0,
+      266
+     ],
+     [
+      3003,
+      0,
+      30
+     ]
+    ]
+   },
+   "dataset": "mitbih",
+   "macro_recall_std": 0.00026,
+   "metrics": {
+    "accuracy": 0.88767,
+    "f1": {
+     "N": 0.94403,
+     "S": 0.0,
+     "V": 0.0179
+    },
+    "macro_recall": 0.33641,
+    "precision": {
+     "N": 0.89452,
+     "S": 0.0,
+     "V": 0.09419
+    },
+    "recall": {
+     "N": 0.99933,
+     "S": 0.0,
+     "V": 0.00989
+    }
+   },
+   "metrics_std": {
+    "accuracy": 4e-05,
+    "f1": {
+     "N": 0.0001,
+     "S": 0.0,
+     "V": 0.00141
+    },
+    "macro_recall": 0.00026,
+    "precision": {
+     "N": 0.00021,
+     "S": 0.0,
+     "V": 0.0048
+    },
+    "recall": {
+     "N": 4e-05,
+     "S": 0.0,
+     "V": 0.00081
+    }
+   },
+   "n_params": 564,
+   "n_repeats": 3,
+   "name": "baseline",
+   "role": "baseline",
+   "run_id": "0fe432e8b7ed4d66b525a1277fda937f",
+   "session": "2026-11-17 13:54:35",
+   "train_seconds": 2.322
+  },
+  "distributions": {
+   "downsample": {
+    "attributes": {
+     "choices": [
+      "pool",
+      "stride"
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "excite": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "fold": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "gate": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "norm": {
+    "attributes": {
+     "choices": [
+      "none",
+      "batch",
+      "layer"
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "parallel": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "skip": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "state": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   }
+  },
+  "end_time": 1794920085968,
+  "experiment": "lesson2-notebook-runs",
+  "intermediate": [
+   {
+    "step": 0,
+    "value": 0.33671732813295074
+   },
+   {
+    "step": 1,
+    "value": 0.3364179687434338
+   },
+   {
+    "step": 2,
+    "value": 0.3360882621822732
+   }
+  ],
+  "params": {
+   "channels": 1,
+   "class_weight": 0.0,
+   "dataset": "mitbih",
+   "depth": 0,
+   "downsample": "pool",
+   "dropout": 0.0,
+   "epochs": 8,
+   "excite": false,
+   "fold": false,
+   "gate": false,
+   "kernel_size": 0,
+   "lr": 0.001,
+   "norm": "none",
+   "parallel": false,
+   "sigma": 0.0,
+   "skip": false,
+   "state": false,
+   "steps": 187,
+   "width": 0
+  },
+  "run_id": "0fe432e8b7ed4d66b525a1277fda937f",
+  "run_name": "baseline",
+  "start_time": 1794920085935,
+  "status": "COMPLETE",
+  "study": {
+   "attrs": {
+    "idea": "lesson 2 as handed out",
+    "idea_author": "course",
+    "idea_id": "8adfe3f5179d2b0b66a7019536326491b4b598e688d1822c09b192f1ce575c74",
+    "idea_name": "mesmerizing-wildcat-27",
+    "idea_parents": "",
+    "objective": "macro_recall"
+   },
+   "direction": "maximize"
+  },
+  "value": 0.3364078530195526
+ },
+ "schema": "mads-run/2",
+ "student": "raoulg",
+ "submitted_at": "2026-11-17T13:04:56Z"
+}

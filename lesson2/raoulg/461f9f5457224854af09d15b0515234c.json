@@ -1,0 +1,113 @@
+{
+ "code": {
+  "commit": "41c0bf2f42f84ad107ba71cde40672081ac0e5a3",
+  "dirty": false,
+  "remote": "https://github.com/raoulg/MADS-MachineLearning-course.git"
+ },
+ "lesson": 2,
+ "run": {
+  "artifacts": {},
+  "attrs": {
+   "accuracy_std": 0.0,
+   "confusion": {
+    "classes": [
+     "N",
+     "S",
+     "V"
+    ],
+    "counts": [
+     [
+      10480,
+      120,
+      384
+     ],
+     [
+      248,
+      7,
+      127
+     ],
+     [
+      512,
+      1,
+      498
+     ]
+    ]
+   },
+   "dataset": "mitbih",
+   "macro_recall_std": 0.0,
+   "metrics": {
+    "accuracy": 0.88753,
+    "f1": {
+     "N": 0.94312,
+     "S": 0.02745,
+     "V": 0.49307
+    },
+    "macro_recall": 0.48834,
+    "precision": {
+     "N": 0.93238,
+     "S": 0.05469,
+     "V": 0.49356
+    },
+    "recall": {
+     "N": 0.95412,
+     "S": 0.01832,
+     "V": 0.49258
+    }
+   },
+   "metrics_std": {
+    "accuracy": 0.0,
+    "f1": {
+     "N": 0.0,
+     "S": 0.0,
+     "V": 0.0
+    },
+    "macro_recall": 0.0,
+    "precision": {
+     "N": 0.0,
+     "S": 0.0,
+     "V": 0.0
+    },
+    "recall": {
+     "N": 0.0,
+     "S": 0.0,
+     "V": 0.0
+    }
+   },
+   "n_repeats": 1,
+   "name": "1-nearest-neighbour",
+   "role": "baseline",
+   "run_id": "461f9f5457224854af09d15b0515234c",
+   "session": "2026-11-17 13:54:35",
+   "train_seconds": 0.0
+  },
+  "distributions": {},
+  "end_time": 1794920085984,
+  "experiment": "lesson2-notebook-runs",
+  "intermediate": [
+   {
+    "step": 0,
+    "value": 0.4883404287262009
+   }
+  ],
+  "params": {},
+  "run_id": "461f9f5457224854af09d15b0515234c",
+  "run_name": "1-nearest-neighbour",
+  "start_time": 1794920085973,
+  "status": "COMPLETE",
+  "study": {
+   "attrs": {
+    "idea": "lesson 2 as handed out",
+    "idea_author": "course",
+    "idea_id": "8adfe3f5179d2b0b66a7019536326491b4b598e688d1822c09b192f1ce575c74",
+    "idea_name": "mesmerizing-wildcat-27",
+    "idea_parents": "",
+    "objective": "macro_recall"
+   },
+   "direction": "maximize"
+  },
+  "value": 0.4883404287262009
+ },
+ "schema": "mads-run/2",
+ "student": "raoulg",
+ "submitted_at": "2026-11-17T13:04:56Z"
+}
