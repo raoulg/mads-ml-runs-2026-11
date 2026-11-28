@@ -1,0 +1,286 @@
+{
+ "code": {
+  "commit": "002602a677333989904ddd7e8b54e5f8f2ab3397",
+  "dirty": false,
+  "remote": "https://github.com/raoulg/MADS-MachineLearning-course"
+ },
+ "lesson": 2,
+ "run": {
+  "artifacts": {
+   "architecture.json": {
+    "flops_per_image": 1122,
+    "input_shape": [
+     2,
+     187,
+     1
+    ],
+    "latency_us": 0.267,
+    "layers": [
+     {
+      "depth": 0,
+      "input_shape": [
+       2,
+       187,
+       1
+      ],
+      "leaf": false,
+      "name": "Sequential",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       187,
+       1
+      ],
+      "leaf": true,
+      "name": "0",
+      "output_shape": [
+       2,
+       187
+      ],
+      "params": 0,
+      "type": "Flatten"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       187
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": 564,
+      "type": "Linear"
+     }
+    ],
+    "n_params": 564,
+    "n_trainable": 564,
+    "output_shape": [
+     2,
+     3
+    ],
+    "signature": "Flatten > Linear(187->3)",
+    "summary": "===================================================================================================================\nLayer (type:depth-idx)                   Input Shape               Output Shape              Param #\n===================================================================================================================\nSequential                               [2, 187, 1]               [2, 3]                    --\n\u251c\u2500Flatten: 1-1                           [2, 187, 1]               [2, 187]                  --\n\u251c\u2500Linear: 1-2                            [2, 187]                  [2, 3]                    564\n===================================================================================================================\nTotal params: 564\nTrainable params: 564\nNon-trainable params: 0\nTotal mult-adds (Units.MEGABYTES): 0.00\n===================================================================================================================\nInput size (MB): 0.00\nForward/backward pass size (MB): 0.00\nParams size (MB): 0.00\nEstimated Total Size (MB): 0.00\n==================================================================================================================="
+   }
+  },
+  "attrs": {
+   "accuracy_std": 0.00015,
+   "architecture": "Flatten > Linear(187->3)",
+   "confusion": {
+    "classes": [
+     "N",
+     "S",
+     "V"
+    ],
+    "counts": [
+     [
+      32926,
+      1,
+      25
+     ],
+     [
+      870,
+      0,
+      276
+     ],
+     [
+      2991,
+      0,
+      42
+     ]
+    ]
+   },
+   "dataset": "mitbih",
+   "flops_per_image": 1122,
+   "latency_us": 0.267,
+   "macro_recall_std": 0.00069,
+   "metrics": {
+    "accuracy": 0.88788,
+    "f1": {
+     "N": 0.94426,
+     "S": 0.0,
+     "V": 0.02487
+    },
+    "macro_recall": 0.33769,
+    "precision": {
+     "N": 0.89504,
+     "S": 0.0,
+     "V": 0.12188
+    },
+    "recall": {
+     "N": 0.99921,
+     "S": 0.0,
+     "V": 0.01385
+    }
+   },
+   "metrics_std": {
+    "accuracy": 0.00015,
+    "f1": {
+     "N": 0.00014,
+     "S": 0.0,
+     "V": 0.00375
+    },
+    "macro_recall": 0.00069,
+    "precision": {
+     "N": 0.00027,
+     "S": 0.0,
+     "V": 0.01448
+    },
+    "recall": {
+     "N": 0.00015,
+     "S": 0.0,
+     "V": 0.00214
+    }
+   },
+   "n_params": 564,
+   "n_repeats": 3,
+   "name": "baseline",
+   "role": "baseline",
+   "run_id": "2e8275474e4e4bc3a73746e14b6ed778",
+   "session": "2026-11-28 10:56:54",
+   "train_seconds": 6.742
+  },
+  "distributions": {
+   "downsample": {
+    "attributes": {
+     "choices": [
+      "pool",
+      "stride"
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "excite": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "fold": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "gate": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "norm": {
+    "attributes": {
+     "choices": [
+      "none",
+      "batch",
+      "layer"
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "parallel": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "skip": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "state": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   }
+  },
+  "end_time": 1795859858310,
+  "experiment": "lesson2-notebook-runs",
+  "intermediate": [
+   {
+    "step": 0,
+    "value": 0.3383658609387536
+   },
+   {
+    "step": 1,
+    "value": 0.3379451128626622
+   },
+   {
+    "step": 2,
+    "value": 0.3367476753045944
+   }
+  ],
+  "params": {
+   "channels": 1,
+   "class_weight": 0.0,
+   "dataset": "mitbih",
+   "depth": 0,
+   "downsample": "pool",
+   "dropout": 0.0,
+   "epochs": 8,
+   "excite": false,
+   "fold": false,
+   "gate": false,
+   "kernel_size": 0,
+   "lr": 0.001,
+   "norm": "none",
+   "parallel": false,
+   "sigma": 0.0,
+   "skip": false,
+   "state": false,
+   "steps": 187,
+   "width": 0
+  },
+  "run_id": "2e8275474e4e4bc3a73746e14b6ed778",
+  "run_name": "baseline",
+  "start_time": 1795859857782,
+  "status": "COMPLETE",
+  "study": {
+   "attrs": {
+    "idea": "lesson 2 as handed out",
+    "idea_author": "course",
+    "idea_id": "8adfe3f5179d2b0b66a7019536326491b4b598e688d1822c09b192f1ce575c74",
+    "idea_name": "mesmerizing-wildcat-27",
+    "idea_parents": "",
+    "objective": "macro_recall"
+   },
+   "direction": "maximize"
+  },
+  "value": 0.3376862163686701
+ },
+ "schema": "mads-run/2",
+ "student": "Cloudy1055",
+ "submitted_at": "2026-11-28T15:36:25Z"
+}
