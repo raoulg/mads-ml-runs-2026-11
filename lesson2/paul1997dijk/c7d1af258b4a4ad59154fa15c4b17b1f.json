@@ -1,0 +1,297 @@
+{
+ "code": {
+  "commit": "277718df813ce907db83e87c2ec03c62ce1f7d4b",
+  "dirty": true,
+  "remote": "https://github.com/raoulg/MADS-MachineLearning-course.git"
+ },
+ "lesson": 2,
+ "run": {
+  "artifacts": {
+   "architecture.json": {
+    "flops_per_image": 2244,
+    "input_shape": [
+     2,
+     374,
+     1
+    ],
+    "latency_us": 0.252,
+    "layers": [
+     {
+      "depth": 0,
+      "input_shape": [
+       2,
+       374,
+       1
+      ],
+      "leaf": false,
+      "name": "Sequential",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       374,
+       1
+      ],
+      "leaf": true,
+      "name": "0",
+      "output_shape": [
+       2,
+       374
+      ],
+      "params": 0,
+      "type": "Flatten"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       374
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": 1125,
+      "type": "Linear"
+     }
+    ],
+    "n_params": 1125,
+    "n_trainable": 1125,
+    "output_shape": [
+     2,
+     3
+    ],
+    "signature": "Flatten > Linear(374->3)",
+    "summary": "===================================================================================================================\nLayer (type:depth-idx)                   Input Shape               Output Shape              Param #\n===================================================================================================================\nSequential                               [2, 374, 1]               [2, 3]                    --\n\u251c\u2500Flatten: 1-1                           [2, 374, 1]               [2, 374]                  --\n\u251c\u2500Linear: 1-2                            [2, 374]                  [2, 3]                    1,125\n===================================================================================================================\nTotal params: 1,125\nTrainable params: 1,125\nNon-trainable params: 0\nTotal mult-adds (Units.MEGABYTES): 0.00\n===================================================================================================================\nInput size (MB): 0.00\nForward/backward pass size (MB): 0.00\nParams size (MB): 0.00\nEstimated Total Size (MB): 0.01\n==================================================================================================================="
+   },
+   "design.py": "\"\"\"The design of your study: a model of one heartbeat as a supergraph, one typed stage per\r\noperation.\r\n\r\nA beat is `(batch, 187, 1)`: 187 steps, one channel. The design reads it with kernels,\r\nshortens it block by block, and classifies it as N, S or V. Every block the search may\r\nleave out is a choice in `forward` (`if self.config.state:`), and `@option(\"state\")` on\r\nits stage names the axis of the search space that decides it. The config a trial draws\r\npicks the subgraph that is built. `option` and `Design` are in `vectormesh.design`, the\r\nsame for every lesson.\r\n\r\nThe choices of this design, each a bet about the data (slide 18):\r\n\r\n- `kernel_size`, `width`, `depth`: how far one position sees, through depth;\r\n- `downsample`: a pool of 2 or a kernel with stride 2 after every block;\r\n- `parallel`: a second, wider kernel beside the first, concatenated on the channels;\r\n- `fold`: the beat folded to `(11, 17)` and read by a 2D kernel, beside the 1D one;\r\n- `skip`: a skip around every block;\r\n- `excite`: squeeze-excite on the channels of every block;\r\n- `state`: a GRU over the shortened beat;\r\n- `gate`: a gate on the features before the head;\r\n- `sigma`, `norm`, `dropout`: input noise, a norm in every block, dropout before the head.\r\n\r\nRead it in atlas before you train anything: the shape on every arrow, and where a choice\r\nleaves a stage out.\r\n\r\n    atlas-code-nightly view notebooks/2_kernels_state_and_gates/exercises\r\n\r\nRun it from the root of the course repository to build every combination of the options\r\nand see the shape after every stage:\r\n\r\n    uv run notebooks/2_kernels_state_and_gates/exercises/designs.py\r\n\r\nTo design your own:\r\n\r\n1. Add a stage: a method of `Beats` whose signature says the shape it takes and the\r\n   shape it gives, under `@jaxtyped(typechecker=beartype)`. Build its layers in\r\n   `__init__`, only when the config chooses it.\r\n2. If the search may leave it out, mark it `@option(\"<axis>\")`, give `Config` a field\r\n   `<axis>: bool = False`, and call it in `forward` under `if self.config.<axis>:`.\r\n3. Add the axis to `SPACE` in `study.py`: `\"<axis>\": Choice([False, True])`.\r\n\"\"\"\r\n\r\nfrom dataclasses import dataclass\r\nfrom typing import Literal\r\n\r\nimport torch\r\nfrom beartype import beartype\r\nfrom jaxtyping import Float, jaxtyped\r\nfrom torch import Tensor, nn\r\nfrom vectormesh.components import (\r\n    Conv1D,\r\n    Conv2D,\r\n    Gate,\r\n    GaussianNoise,\r\n    Norm,\r\n    Pool1D,\r\n    Recurrent,\r\n)\r\nfrom vectormesh.design import Design, option\r\n\r\nSTEPS = 187\r\nFOLD = (11, 17)  # 11 * 17 = 187: the beat as a grid of 11 rows of 17 steps\r\n# the study's input: the beat before, then the beat itself (harness.py, `previous`)\r\nTWO_BEATS = 2 * STEPS\r\n\r\n\r\n@dataclass(frozen=True)\r\nclass Config:\r\n    \"\"\"The choices of the design. The search space draws them (`SPACE` in `study.py`);\r\n    a field the space leaves out keeps its default here.\"\"\"\r\n\r\n    kernel_size: int = 5\r\n    width: int = 32  # channels after the first kernel\r\n    depth: int = 3  # blocks, each followed by a downsample of 2\r\n    downsample: Literal[\"pool\", \"stride\"] = \"pool\"\r\n    norm: Literal[\"none\", \"batch\", \"layer\"] = \"none\"\r\n    sigma: float = 0.0  # Gaussian noise on the beat, relative to its spread\r\n    dropout: float = 0.0  # before the head\r\n    wide_kernel: int = 15  # the second kernel of `parallel`\r\n    parallel: bool = False\r\n    fold: bool = False\r\n    skip: bool = False\r\n    excite: bool = False\r\n    state: bool = False\r\n    gate: bool = False\r\n\r\n\r\ndef shortened(steps: int, depth: int, downsample: str) -> int:\r\n    \"\"\"The length of the sequence after `depth` downsamples of 2.\"\"\"\r\n    for _ in range(depth):\r\n        steps = steps // 2 if downsample == \"pool\" else (steps + 1) // 2\r\n    return steps\r\n\r\n\r\nclass SqueezeExcite(nn.Module):\r\n    \"\"\"A gate on whole channels: squeeze the sequence axis away, then a narrow network\r\n    and a sigmoid give every channel one multiplier between 0 and 1.\"\"\"\r\n\r\n    def __init__(self, channels: int, reduction: int = 4) -> None:\r\n        super().__init__()\r\n        narrow = max(channels // reduction, 1)\r\n        self.excite = nn.Sequential(\r\n            nn.Linear(channels, narrow),\r\n            nn.GELU(),\r\n            nn.Linear(narrow, channels),\r\n            nn.Sigmoid(),\r\n        )\r\n\r\n    def forward(self, x: Tensor) -> Tensor:\r\n        return x * self.excite(x.mean(dim=1)).unsqueeze(1)\r\n\r\n\r\nclass Beats(nn.Module):\r\n    \"\"\"A beat in, a score per class out. Each stage is a method whose signature states the\r\n    shape it takes and the shape it gives, in the widths this model was built with, and\r\n    `@jaxtyped` checks that statement on every call.\"\"\"\r\n\r\n    wide: Conv1D\r\n    join: Conv1D\r\n    grid: Conv2D\r\n    excitations: nn.ModuleList\r\n    recurrent: Recurrent\r\n    gating: Gate\r\n\r\n    def __init__(self, config: Config, n_classes: int, steps: int = STEPS) -> None:\r\n        super().__init__()\r\n        if config.depth < 1:\r\n            raise ValueError(\r\n                \"Beats: depth must be at least 1; without a block the model is the \"\r\n                \"linear baseline, which study.py measures by itself\"\r\n            )\r\n        self.config = config\r\n        self.width = config.width\r\n        self.n_classes = n_classes\r\n        self.steps = steps\r\n        self.short = shortened(steps, config.depth, config.downsample)\r\n        # the fold keeps rows of 17 steps: 11 rows for one beat, 22 for two\r\n        if config.fold and steps % FOLD[1]:\r\n            raise ValueError(f\"Beats: fold needs a multiple of {FOLD[1]} steps\")\r\n        self.fold_shape = (steps // FOLD[1], FOLD[1])\r\n        width, k = config.width, config.kernel_size\r\n\r\n        self.noise = GaussianNoise(sigma=config.sigma)\r\n        self.narrow = Conv1D(1, width, k, padding=k // 2)\r\n        # an optional stage's layers exist only in the subgraph that uses them, so\r\n        # n_params counts what the trial trained\r\n        if config.parallel:\r\n            wk = config.wide_kernel\r\n            self.wide = Conv1D(1, width, wk, padding=wk // 2)\r\n            self.join = Conv1D(2 * width, width, 1)\r\n        if config.fold:\r\n            self.grid = Conv2D(1, width, 3, padding=1)\r\n        self.blocks = nn.ModuleList()\r\n        self.downs = nn.ModuleList()\r\n        for _ in range(config.depth):\r\n            layers: list[nn.Module] = [Conv1D(width, width, k, padding=k // 2)]\r\n            if config.norm != \"none\":\r\n                layers.append(Norm(width, kind=config.norm))\r\n            layers.append(nn.GELU())\r\n            self.blocks.append(nn.Sequential(*layers))\r\n            self.downs.append(\r\n                Pool1D(2)\r\n                if config.downsample == \"pool\"\r\n                else Conv1D(width, width, 3, stride=2, padding=1)\r\n            )\r\n        if config.excite:\r\n            self.excitations = nn.ModuleList(\r\n                SqueezeExcite(width) for _ in range(config.depth)\r\n            )\r\n        if config.state:\r\n            self.recurrent = Recurrent(width, width, kind=\"gru\")\r\n        if config.gate:\r\n            self.gating = Gate(width)\r\n        self.drop = nn.Dropout(config.dropout)\r\n        self.classifier = nn.Linear(self.short * width, n_classes)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def perturb(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.steps} 1\"]:\r\n        return self.noise(beat)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def kernel(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.steps} {self.width}\"]:\r\n        return self.narrow(beat)\r\n\r\n    @option(\"parallel\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def parallel(\r\n        self,\r\n        beat: Float[Tensor, \"batch {self.steps} 1\"],\r\n        narrow: Float[Tensor, \"batch {self.steps} {self.width}\"],\r\n    ) -> Float[Tensor, \"batch {self.steps} {self.width}\"]:\r\n        both = torch.cat([narrow, self.wide(beat)], dim=-1)  # (batch, steps, 2 width)\r\n        return self.join(both)\r\n\r\n    @option(\"fold\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def fold(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.steps} {self.width}\"]:\r\n        grid = beat.reshape(-1, 1, *self.fold_shape)  # (batch, 1, 11, 17) for one beat\r\n        seen = self.grid(grid)  # (batch, width, 11, 17)\r\n        return seen.flatten(2).transpose(1, 2)  # back to (batch, steps, width)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def block(\r\n        self, features: Float[Tensor, \"batch steps {self.width}\"], i: int\r\n    ) -> Float[Tensor, \"batch steps {self.width}\"]:\r\n        return self.blocks[i](features)\r\n\r\n    @option(\"skip\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def skip(\r\n        self,\r\n        features: Float[Tensor, \"batch steps {self.width}\"],\r\n        block: Float[Tensor, \"batch steps {self.width}\"],\r\n    ) -> Float[Tensor, \"batch steps {self.width}\"]:\r\n        return features + block\r\n\r\n    @option(\"excite\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def excite(\r\n        self, features: Float[Tensor, \"batch steps {self.width}\"], i: int\r\n    ) -> Float[Tensor, \"batch steps {self.width}\"]:\r\n        return self.excitations[i](features)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def downsample(\r\n        self, features: Float[Tensor, \"batch steps {self.width}\"], i: int\r\n    ) -> Float[Tensor, \"batch shorter {self.width}\"]:\r\n        return self.downs[i](features)\r\n\r\n    @option(\"state\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def state(\r\n        self, features: Float[Tensor, \"batch {self.short} {self.width}\"]\r\n    ) -> Float[Tensor, \"batch {self.short} {self.width}\"]:\r\n        return self.recurrent(features)\r\n\r\n    @option(\"gate\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def gate(\r\n        self, features: Float[Tensor, \"batch {self.short} {self.width}\"]\r\n    ) -> Float[Tensor, \"batch {self.short} {self.width}\"]:\r\n        return self.gating(features)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def classify(\r\n        self, features: Float[Tensor, \"batch {self.short} {self.width}\"]\r\n    ) -> Float[Tensor, \"batch {self.n_classes}\"]:\r\n        return self.classifier(self.drop(features.flatten(1)))\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def forward(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.n_classes}\"]:\r\n        beat = self.perturb(beat)\r\n        features = self.kernel(beat)\r\n        if self.config.parallel:\r\n            features = self.parallel(beat, features)\r\n        if self.config.fold:\r\n            features = features + self.fold(beat)\r\n        for i in range(self.config.depth):\r\n            block = self.block(features, i)\r\n            if self.config.skip:\r\n                block = self.skip(features, block)\r\n            if self.config.excite:\r\n                block = self.excite(block, i)\r\n            features = self.downsample(block, i)\r\n        if self.config.state:\r\n            features = self.state(features)\r\n        if self.config.gate:\r\n            features = self.gate(features)\r\n        return self.classify(features)\r\n\r\n\r\n# The model and the config that switches its options, as the study reads them.\r\nDESIGN = Design(Beats, Config)\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    # two examples are enough to trace every shape; each is the beat before and the beat\r\n    DESIGN.show(torch.randn(2, TWO_BEATS, 1), n_classes=3, steps=TWO_BEATS)\r\n"
+  },
+  "attrs": {
+   "accuracy_std": 0.0003,
+   "architecture": "Flatten > Linear(374->3)",
+   "confusion": {
+    "classes": [
+     "N",
+     "S",
+     "V"
+    ],
+    "counts": [
+     [
+      32793,
+      19,
+      140
+     ],
+     [
+      943,
+      2,
+      201
+     ],
+     [
+      2880,
+      0,
+      153
+     ]
+    ]
+   },
+   "dataset": "mitbih",
+   "flops_per_image": 2244,
+   "latency_us": 0.252,
+   "macro_recall_std": 0.00137,
+   "metrics": {
+    "accuracy": 0.88734,
+    "f1": {
+     "N": 0.94276,
+     "S": 0.00339,
+     "V": 0.08667
+    },
+    "macro_recall": 0.34912,
+    "precision": {
+     "N": 0.89559,
+     "S": 0.06061,
+     "V": 0.30989
+    },
+    "recall": {
+     "N": 0.99517,
+     "S": 0.00175,
+     "V": 0.05045
+    }
+   },
+   "metrics_std": {
+    "accuracy": 0.0003,
+    "f1": {
+     "N": 6e-05,
+     "S": 0.0048,
+     "V": 0.00656
+    },
+    "macro_recall": 0.00137,
+    "precision": {
+     "N": 0.00053,
+     "S": 0.08571,
+     "V": 0.00216
+    },
+    "recall": {
+     "N": 0.00074,
+     "S": 0.00247,
+     "V": 0.0045
+    }
+   },
+   "n_params": 1125,
+   "n_repeats": 3,
+   "name": "baseline",
+   "role": "baseline",
+   "run_id": "c7d1af258b4a4ad59154fa15c4b17b1f",
+   "session": "2026-11-28 10:59:40",
+   "train_seconds": 4.966
+  },
+  "distributions": {
+   "downsample": {
+    "attributes": {
+     "choices": [
+      "pool",
+      "stride"
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "excite": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "fold": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "gate": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "norm": {
+    "attributes": {
+     "choices": [
+      "none",
+      "batch",
+      "layer"
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "parallel": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "previous": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "skip": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "state": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   }
+  },
+  "end_time": 1795864900735,
+  "experiment": "lesson2-study-paul-input-change-2-heartbeats-runs",
+  "intermediate": [
+   {
+    "step": 0,
+    "value": 0.3502147355059387
+   },
+   {
+    "step": 1,
+    "value": 0.3499554619923311
+   },
+   {
+    "step": 2,
+    "value": 0.3471949067660445
+   }
+  ],
+  "params": {
+   "channels": 1,
+   "class_weight": 0.0,
+   "dataset": "mitbih",
+   "depth": 0,
+   "downsample": "pool",
+   "dropout": 0.0,
+   "epochs": 8,
+   "excite": false,
+   "fold": false,
+   "gate": false,
+   "kernel_size": 0,
+   "lr": 0.001,
+   "norm": "none",
+   "parallel": false,
+   "previous": true,
+   "sigma": 0.0,
+   "skip": false,
+   "state": false,
+   "steps": 374,
+   "width": 0
+  },
+  "run_id": "c7d1af258b4a4ad59154fa15c4b17b1f",
+  "run_name": "baseline",
+  "start_time": 1795864900483,
+  "status": "COMPLETE",
+  "study": {
+   "attrs": {
+    "idea": "whether combining two heartbeats for the input increases s recall",
+    "idea_author": "paul1997dijk",
+    "idea_id": "65dbfe7381b291c429e3c9c0f5cd9fa78692b6e3fa2e710fbcae0a035507dafe",
+    "idea_name": "furry-sardine-54",
+    "idea_parents": "mesmerizing-wildcat-27",
+    "objective": "macro_recall"
+   },
+   "direction": "maximize"
+  },
+  "value": 0.34912170142143806
+ },
+ "schema": "mads-run/2",
+ "student": "paul1997dijk",
+ "submitted_at": "2026-11-28T12:17:59Z"
+}

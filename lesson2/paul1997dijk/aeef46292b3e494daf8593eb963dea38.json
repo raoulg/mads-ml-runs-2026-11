@@ -1,0 +1,782 @@
+{
+ "code": {
+  "commit": "277718df813ce907db83e87c2ec03c62ce1f7d4b",
+  "dirty": true,
+  "remote": "https://github.com/raoulg/MADS-MachineLearning-course.git"
+ },
+ "lesson": 2,
+ "run": {
+  "artifacts": {
+   "architecture.json": {
+    "flops_per_image": 1748672,
+    "input_shape": [
+     2,
+     374,
+     1
+    ],
+    "latency_us": 171.305,
+    "layers": [
+     {
+      "depth": 0,
+      "input_shape": [
+       2,
+       374,
+       1
+      ],
+      "leaf": false,
+      "name": "Beats",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": null,
+      "type": "Beats"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       374,
+       1
+      ],
+      "leaf": true,
+      "name": "noise",
+      "output_shape": [
+       2,
+       374,
+       1
+      ],
+      "params": 0,
+      "type": "GaussianNoise"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       374,
+       1
+      ],
+      "leaf": false,
+      "name": "narrow",
+      "output_shape": [
+       2,
+       374,
+       16
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       1,
+       374
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       16,
+       374
+      ],
+      "params": 64,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       374,
+       1
+      ],
+      "leaf": false,
+      "name": "wide",
+      "output_shape": [
+       2,
+       374,
+       16
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       1,
+       374
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       16,
+       374
+      ],
+      "params": 256,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       374,
+       32
+      ],
+      "leaf": false,
+      "name": "join",
+      "output_shape": [
+       2,
+       374,
+       16
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       32,
+       374
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       16,
+       374
+      ],
+      "params": 528,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       374,
+       16
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       374,
+       16
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       374,
+       16
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       374,
+       16
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 4,
+      "input_shape": [
+       2,
+       16,
+       374
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       16,
+       374
+      ],
+      "params": 784,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       374,
+       16
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       374,
+       16
+      ],
+      "params": 0,
+      "type": "GELU"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       374,
+       16
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       187,
+       16
+      ],
+      "params": null,
+      "type": "Pool1D"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       16,
+       374
+      ],
+      "leaf": true,
+      "name": "pool",
+      "output_shape": [
+       2,
+       16,
+       187
+      ],
+      "params": 0,
+      "type": "MaxPool1d"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       187,
+       16
+      ],
+      "leaf": false,
+      "name": "1",
+      "output_shape": [
+       2,
+       187,
+       16
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       187,
+       16
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       187,
+       16
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 4,
+      "input_shape": [
+       2,
+       16,
+       187
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       16,
+       187
+      ],
+      "params": 784,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       187,
+       16
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       187,
+       16
+      ],
+      "params": 0,
+      "type": "GELU"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       187,
+       16
+      ],
+      "leaf": false,
+      "name": "1",
+      "output_shape": [
+       2,
+       93,
+       16
+      ],
+      "params": null,
+      "type": "Pool1D"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       16,
+       187
+      ],
+      "leaf": true,
+      "name": "pool",
+      "output_shape": [
+       2,
+       16,
+       93
+      ],
+      "params": 0,
+      "type": "MaxPool1d"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       93,
+       16
+      ],
+      "leaf": false,
+      "name": "2",
+      "output_shape": [
+       2,
+       93,
+       16
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       93,
+       16
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       93,
+       16
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 4,
+      "input_shape": [
+       2,
+       16,
+       93
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       16,
+       93
+      ],
+      "params": 784,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       93,
+       16
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       93,
+       16
+      ],
+      "params": 0,
+      "type": "GELU"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       93,
+       16
+      ],
+      "leaf": false,
+      "name": "2",
+      "output_shape": [
+       2,
+       46,
+       16
+      ],
+      "params": null,
+      "type": "Pool1D"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       16,
+       93
+      ],
+      "leaf": true,
+      "name": "pool",
+      "output_shape": [
+       2,
+       16,
+       46
+      ],
+      "params": 0,
+      "type": "MaxPool1d"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       46,
+       16
+      ],
+      "leaf": false,
+      "name": "recurrent",
+      "output_shape": [
+       2,
+       46,
+       16
+      ],
+      "params": null,
+      "type": "Recurrent"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       46,
+       16
+      ],
+      "leaf": true,
+      "name": "rnn",
+      "output_shape": [
+       2,
+       46,
+       16
+      ],
+      "params": 1632,
+      "type": "GRU"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       736
+      ],
+      "leaf": true,
+      "name": "drop",
+      "output_shape": [
+       2,
+       736
+      ],
+      "params": 0,
+      "type": "Dropout"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       736
+      ],
+      "leaf": true,
+      "name": "classifier",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": 2211,
+      "type": "Linear"
+     }
+    ],
+    "n_params": 7043,
+    "n_trainable": 7043,
+    "output_shape": [
+     2,
+     3
+    ],
+    "signature": "GaussianNoise > Conv1d(374->374) > Conv1d(374->374) > Conv1d(374->374) > Conv1d(374->374) > GELU > MaxPool1d > Conv1d(187->187) > GELU > MaxPool1d > Conv1d(93->93) > GELU > MaxPool1d > GRU(16->16) > Dropout > Linear(736->3)",
+    "summary": "===================================================================================================================\nLayer (type:depth-idx)                   Input Shape               Output Shape              Param #\n===================================================================================================================\nBeats                                    [2, 374, 1]               [2, 3]                    --\n\u251c\u2500GaussianNoise: 1-1                     [2, 374, 1]               [2, 374, 1]               --\n\u251c\u2500Conv1D: 1-2                            [2, 374, 1]               [2, 374, 16]              --\n\u2502    \u2514\u2500Conv1d: 2-1                       [2, 1, 374]               [2, 16, 374]              64\n\u251c\u2500Conv1D: 1-3                            [2, 374, 1]               [2, 374, 16]              --\n\u2502    \u2514\u2500Conv1d: 2-2                       [2, 1, 374]               [2, 16, 374]              256\n\u251c\u2500Conv1D: 1-4                            [2, 374, 32]              [2, 374, 16]              --\n\u2502    \u2514\u2500Conv1d: 2-3                       [2, 32, 374]              [2, 16, 374]              528\n\u251c\u2500ModuleList: 1-9                        --                        --                        (recursive)\n\u2502    \u2514\u2500Sequential: 2-4                   [2, 374, 16]              [2, 374, 16]              --\n\u2502    \u2502    \u2514\u2500Conv1D: 3-1                  [2, 374, 16]              [2, 374, 16]              --\n\u2502    \u2502    \u2502    \u2514\u2500Conv1d: 4-1             [2, 16, 374]              [2, 16, 374]              784\n\u2502    \u2502    \u2514\u2500GELU: 3-2                    [2, 374, 16]              [2, 374, 16]              --\n\u251c\u2500ModuleList: 1-10                       --                        --                        --\n\u2502    \u2514\u2500Pool1D: 2-5                       [2, 374, 16]              [2, 187, 16]              --\n\u2502    \u2502    \u2514\u2500MaxPool1d: 3-3               [2, 16, 374]              [2, 16, 187]              --\n\u251c\u2500ModuleList: 1-9                        --                        --                        (recursive)\n\u2502    \u2514\u2500Sequential: 2-6                   [2, 187, 16]              [2, 187, 16]              --\n\u2502    \u2502    \u2514\u2500Conv1D: 3-4                  [2, 187, 16]              [2, 187, 16]              --\n\u2502    \u2502    \u2502    \u2514\u2500Conv1d: 4-2             [2, 16, 187]              [2, 16, 187]              784\n\u2502    \u2502    \u2514\u2500GELU: 3-5                    [2, 187, 16]              [2, 187, 16]              --\n\u251c\u2500ModuleList: 1-10                       --                        --                        --\n\u2502    \u2514\u2500Pool1D: 2-7                       [2, 187, 16]              [2, 93, 16]               --\n\u2502    \u2502    \u2514\u2500MaxPool1d: 3-6               [2, 16, 187]              [2, 16, 93]               --\n\u251c\u2500ModuleList: 1-9                        --                        --                        (recursive)\n\u2502    \u2514\u2500Sequential: 2-8                   [2, 93, 16]               [2, 93, 16]               --\n\u2502    \u2502    \u2514\u2500Conv1D: 3-7                  [2, 93, 16]               [2, 93, 16]               --\n\u2502    \u2502    \u2502    \u2514\u2500Conv1d: 4-3             [2, 16, 93]               [2, 16, 93]               784\n\u2502    \u2502    \u2514\u2500GELU: 3-8                    [2, 93, 16]               [2, 93, 16]               --\n\u251c\u2500ModuleList: 1-10                       --                        --                        --\n\u2502    \u2514\u2500Pool1D: 2-9                       [2, 93, 16]               [2, 46, 16]               --\n\u2502    \u2502    \u2514\u2500MaxPool1d: 3-9               [2, 16, 93]               [2, 16, 46]               --\n\u251c\u2500Recurrent: 1-11                        [2, 46, 16]               [2, 46, 16]               --\n\u2502    \u2514\u2500GRU: 2-10                         [2, 46, 16]               [2, 46, 16]               1,632\n\u251c\u2500Dropout: 1-12                          [2, 736]                  [2, 736]                  --\n\u251c\u2500Linear: 1-13                           [2, 736]                  [2, 3]                    2,211\n===================================================================================================================\nTotal params: 7,043\nTrainable params: 7,043\nNon-trainable params: 0\nTotal mult-adds (Units.MEGABYTES): 1.81\n===================================================================================================================\nInput size (MB): 0.00\nForward/backward pass size (MB): 0.47\nParams size (MB): 0.03\nEstimated Total Size (MB): 0.50\n==================================================================================================================="
+   },
+   "design.py": "\"\"\"The design of your study: a model of one heartbeat as a supergraph, one typed stage per\r\noperation.\r\n\r\nA beat is `(batch, 187, 1)`: 187 steps, one channel. The design reads it with kernels,\r\nshortens it block by block, and classifies it as N, S or V. Every block the search may\r\nleave out is a choice in `forward` (`if self.config.state:`), and `@option(\"state\")` on\r\nits stage names the axis of the search space that decides it. The config a trial draws\r\npicks the subgraph that is built. `option` and `Design` are in `vectormesh.design`, the\r\nsame for every lesson.\r\n\r\nThe choices of this design, each a bet about the data (slide 18):\r\n\r\n- `kernel_size`, `width`, `depth`: how far one position sees, through depth;\r\n- `downsample`: a pool of 2 or a kernel with stride 2 after every block;\r\n- `parallel`: a second, wider kernel beside the first, concatenated on the channels;\r\n- `fold`: the beat folded to `(11, 17)` and read by a 2D kernel, beside the 1D one;\r\n- `skip`: a skip around every block;\r\n- `excite`: squeeze-excite on the channels of every block;\r\n- `state`: a GRU over the shortened beat;\r\n- `gate`: a gate on the features before the head;\r\n- `sigma`, `norm`, `dropout`: input noise, a norm in every block, dropout before the head.\r\n\r\nRead it in atlas before you train anything: the shape on every arrow, and where a choice\r\nleaves a stage out.\r\n\r\n    atlas-code-nightly view notebooks/2_kernels_state_and_gates/exercises\r\n\r\nRun it from the root of the course repository to build every combination of the options\r\nand see the shape after every stage:\r\n\r\n    uv run notebooks/2_kernels_state_and_gates/exercises/designs.py\r\n\r\nTo design your own:\r\n\r\n1. Add a stage: a method of `Beats` whose signature says the shape it takes and the\r\n   shape it gives, under `@jaxtyped(typechecker=beartype)`. Build its layers in\r\n   `__init__`, only when the config chooses it.\r\n2. If the search may leave it out, mark it `@option(\"<axis>\")`, give `Config` a field\r\n   `<axis>: bool = False`, and call it in `forward` under `if self.config.<axis>:`.\r\n3. Add the axis to `SPACE` in `study.py`: `\"<axis>\": Choice([False, True])`.\r\n\"\"\"\r\n\r\nfrom dataclasses import dataclass\r\nfrom typing import Literal\r\n\r\nimport torch\r\nfrom beartype import beartype\r\nfrom jaxtyping import Float, jaxtyped\r\nfrom torch import Tensor, nn\r\nfrom vectormesh.components import (\r\n    Conv1D,\r\n    Conv2D,\r\n    Gate,\r\n    GaussianNoise,\r\n    Norm,\r\n    Pool1D,\r\n    Recurrent,\r\n)\r\nfrom vectormesh.design import Design, option\r\n\r\nSTEPS = 187\r\nFOLD = (11, 17)  # 11 * 17 = 187: the beat as a grid of 11 rows of 17 steps\r\n# the study's input: the beat before, then the beat itself (harness.py, `previous`)\r\nTWO_BEATS = 2 * STEPS\r\n\r\n\r\n@dataclass(frozen=True)\r\nclass Config:\r\n    \"\"\"The choices of the design. The search space draws them (`SPACE` in `study.py`);\r\n    a field the space leaves out keeps its default here.\"\"\"\r\n\r\n    kernel_size: int = 5\r\n    width: int = 32  # channels after the first kernel\r\n    depth: int = 3  # blocks, each followed by a downsample of 2\r\n    downsample: Literal[\"pool\", \"stride\"] = \"pool\"\r\n    norm: Literal[\"none\", \"batch\", \"layer\"] = \"none\"\r\n    sigma: float = 0.0  # Gaussian noise on the beat, relative to its spread\r\n    dropout: float = 0.0  # before the head\r\n    wide_kernel: int = 15  # the second kernel of `parallel`\r\n    parallel: bool = False\r\n    fold: bool = False\r\n    skip: bool = False\r\n    excite: bool = False\r\n    state: bool = False\r\n    gate: bool = False\r\n\r\n\r\ndef shortened(steps: int, depth: int, downsample: str) -> int:\r\n    \"\"\"The length of the sequence after `depth` downsamples of 2.\"\"\"\r\n    for _ in range(depth):\r\n        steps = steps // 2 if downsample == \"pool\" else (steps + 1) // 2\r\n    return steps\r\n\r\n\r\nclass SqueezeExcite(nn.Module):\r\n    \"\"\"A gate on whole channels: squeeze the sequence axis away, then a narrow network\r\n    and a sigmoid give every channel one multiplier between 0 and 1.\"\"\"\r\n\r\n    def __init__(self, channels: int, reduction: int = 4) -> None:\r\n        super().__init__()\r\n        narrow = max(channels // reduction, 1)\r\n        self.excite = nn.Sequential(\r\n            nn.Linear(channels, narrow),\r\n            nn.GELU(),\r\n            nn.Linear(narrow, channels),\r\n            nn.Sigmoid(),\r\n        )\r\n\r\n    def forward(self, x: Tensor) -> Tensor:\r\n        return x * self.excite(x.mean(dim=1)).unsqueeze(1)\r\n\r\n\r\nclass Beats(nn.Module):\r\n    \"\"\"A beat in, a score per class out. Each stage is a method whose signature states the\r\n    shape it takes and the shape it gives, in the widths this model was built with, and\r\n    `@jaxtyped` checks that statement on every call.\"\"\"\r\n\r\n    wide: Conv1D\r\n    join: Conv1D\r\n    grid: Conv2D\r\n    excitations: nn.ModuleList\r\n    recurrent: Recurrent\r\n    gating: Gate\r\n\r\n    def __init__(self, config: Config, n_classes: int, steps: int = STEPS) -> None:\r\n        super().__init__()\r\n        if config.depth < 1:\r\n            raise ValueError(\r\n                \"Beats: depth must be at least 1; without a block the model is the \"\r\n                \"linear baseline, which study.py measures by itself\"\r\n            )\r\n        self.config = config\r\n        self.width = config.width\r\n        self.n_classes = n_classes\r\n        self.steps = steps\r\n        self.short = shortened(steps, config.depth, config.downsample)\r\n        # the fold keeps rows of 17 steps: 11 rows for one beat, 22 for two\r\n        if config.fold and steps % FOLD[1]:\r\n            raise ValueError(f\"Beats: fold needs a multiple of {FOLD[1]} steps\")\r\n        self.fold_shape = (steps // FOLD[1], FOLD[1])\r\n        width, k = config.width, config.kernel_size\r\n\r\n        self.noise = GaussianNoise(sigma=config.sigma)\r\n        self.narrow = Conv1D(1, width, k, padding=k // 2)\r\n        # an optional stage's layers exist only in the subgraph that uses them, so\r\n        # n_params counts what the trial trained\r\n        if config.parallel:\r\n            wk = config.wide_kernel\r\n            self.wide = Conv1D(1, width, wk, padding=wk // 2)\r\n            self.join = Conv1D(2 * width, width, 1)\r\n        if config.fold:\r\n            self.grid = Conv2D(1, width, 3, padding=1)\r\n        self.blocks = nn.ModuleList()\r\n        self.downs = nn.ModuleList()\r\n        for _ in range(config.depth):\r\n            layers: list[nn.Module] = [Conv1D(width, width, k, padding=k // 2)]\r\n            if config.norm != \"none\":\r\n                layers.append(Norm(width, kind=config.norm))\r\n            layers.append(nn.GELU())\r\n            self.blocks.append(nn.Sequential(*layers))\r\n            self.downs.append(\r\n                Pool1D(2)\r\n                if config.downsample == \"pool\"\r\n                else Conv1D(width, width, 3, stride=2, padding=1)\r\n            )\r\n        if config.excite:\r\n            self.excitations = nn.ModuleList(\r\n                SqueezeExcite(width) for _ in range(config.depth)\r\n            )\r\n        if config.state:\r\n            self.recurrent = Recurrent(width, width, kind=\"gru\")\r\n        if config.gate:\r\n            self.gating = Gate(width)\r\n        self.drop = nn.Dropout(config.dropout)\r\n        self.classifier = nn.Linear(self.short * width, n_classes)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def perturb(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.steps} 1\"]:\r\n        return self.noise(beat)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def kernel(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.steps} {self.width}\"]:\r\n        return self.narrow(beat)\r\n\r\n    @option(\"parallel\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def parallel(\r\n        self,\r\n        beat: Float[Tensor, \"batch {self.steps} 1\"],\r\n        narrow: Float[Tensor, \"batch {self.steps} {self.width}\"],\r\n    ) -> Float[Tensor, \"batch {self.steps} {self.width}\"]:\r\n        both = torch.cat([narrow, self.wide(beat)], dim=-1)  # (batch, steps, 2 width)\r\n        return self.join(both)\r\n\r\n    @option(\"fold\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def fold(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.steps} {self.width}\"]:\r\n        grid = beat.reshape(-1, 1, *self.fold_shape)  # (batch, 1, 11, 17) for one beat\r\n        seen = self.grid(grid)  # (batch, width, 11, 17)\r\n        return seen.flatten(2).transpose(1, 2)  # back to (batch, steps, width)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def block(\r\n        self, features: Float[Tensor, \"batch steps {self.width}\"], i: int\r\n    ) -> Float[Tensor, \"batch steps {self.width}\"]:\r\n        return self.blocks[i](features)\r\n\r\n    @option(\"skip\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def skip(\r\n        self,\r\n        features: Float[Tensor, \"batch steps {self.width}\"],\r\n        block: Float[Tensor, \"batch steps {self.width}\"],\r\n    ) -> Float[Tensor, \"batch steps {self.width}\"]:\r\n        return features + block\r\n\r\n    @option(\"excite\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def excite(\r\n        self, features: Float[Tensor, \"batch steps {self.width}\"], i: int\r\n    ) -> Float[Tensor, \"batch steps {self.width}\"]:\r\n        return self.excitations[i](features)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def downsample(\r\n        self, features: Float[Tensor, \"batch steps {self.width}\"], i: int\r\n    ) -> Float[Tensor, \"batch shorter {self.width}\"]:\r\n        return self.downs[i](features)\r\n\r\n    @option(\"state\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def state(\r\n        self, features: Float[Tensor, \"batch {self.short} {self.width}\"]\r\n    ) -> Float[Tensor, \"batch {self.short} {self.width}\"]:\r\n        return self.recurrent(features)\r\n\r\n    @option(\"gate\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def gate(\r\n        self, features: Float[Tensor, \"batch {self.short} {self.width}\"]\r\n    ) -> Float[Tensor, \"batch {self.short} {self.width}\"]:\r\n        return self.gating(features)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def classify(\r\n        self, features: Float[Tensor, \"batch {self.short} {self.width}\"]\r\n    ) -> Float[Tensor, \"batch {self.n_classes}\"]:\r\n        return self.classifier(self.drop(features.flatten(1)))\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def forward(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.n_classes}\"]:\r\n        beat = self.perturb(beat)\r\n        features = self.kernel(beat)\r\n        if self.config.parallel:\r\n            features = self.parallel(beat, features)\r\n        if self.config.fold:\r\n            features = features + self.fold(beat)\r\n        for i in range(self.config.depth):\r\n            block = self.block(features, i)\r\n            if self.config.skip:\r\n                block = self.skip(features, block)\r\n            if self.config.excite:\r\n                block = self.excite(block, i)\r\n            features = self.downsample(block, i)\r\n        if self.config.state:\r\n            features = self.state(features)\r\n        if self.config.gate:\r\n            features = self.gate(features)\r\n        return self.classify(features)\r\n\r\n\r\n# The model and the config that switches its options, as the study reads them.\r\nDESIGN = Design(Beats, Config)\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    # two examples are enough to trace every shape; each is the beat before and the beat\r\n    DESIGN.show(torch.randn(2, TWO_BEATS, 1), n_classes=3, steps=TWO_BEATS)\r\n"
+  },
+  "attrs": {
+   "accuracy": [
+    0.74428,
+    0.6626,
+    0.84528,
+    0.79341,
+    0.79478,
+    0.77781,
+    0.88333,
+    0.8334
+   ],
+   "architecture": "GaussianNoise > Conv1d(374->374) > Conv1d(374->374) > Conv1d(374->374) > Conv1d(374->374) > GELU > MaxPool1d > Conv1d(187->187) > GELU > MaxPool1d > Conv1d(93->93) > GELU > MaxPool1d > GRU(16->16) > Dropout > Linear(736->3)",
+   "channels": 1,
+   "class_weight": 1.0,
+   "config": {
+    "class_weight": 1.0,
+    "dataset": "mitbih",
+    "depth": 3,
+    "downsample": "pool",
+    "dropout": 0.0,
+    "epochs": 8,
+    "excite": false,
+    "fold": false,
+    "gate": false,
+    "kernel_size": 3,
+    "lr": 0.001930238775359629,
+    "norm": "none",
+    "parallel": true,
+    "previous": true,
+    "sigma": 0.0,
+    "skip": true,
+    "state": true,
+    "width": 16
+   },
+   "confusion": {
+    "classes": [
+     "N",
+     "S",
+     "V"
+    ],
+    "counts": [
+     [
+      9506,
+      590,
+      888
+     ],
+     [
+      161,
+      27,
+      194
+     ],
+     [
+      200,
+      29,
+      782
+     ]
+    ]
+   },
+   "dataset": "mitbih",
+   "depth": 3,
+   "downsample": "pool",
+   "dropout": 0.0,
+   "epochs": 8,
+   "excite": false,
+   "flops_per_image": 1748672,
+   "fold": false,
+   "gate": false,
+   "kernel_size": 3,
+   "latency_us": 171.305,
+   "macro_recall": [
+    0.51939,
+    0.54193,
+    0.5785,
+    0.54022,
+    0.56905,
+    0.56108,
+    0.61332,
+    0.56987
+   ],
+   "metrics": {
+    "accuracy": 0.8334,
+    "f1": {
+     "N": 0.9118,
+     "S": 0.05253,
+     "V": 0.544
+    },
+    "macro_recall": 0.56987,
+    "precision": {
+     "N": 0.96341,
+     "S": 0.0418,
+     "V": 0.41953
+    },
+    "recall": {
+     "N": 0.86544,
+     "S": 0.07068,
+     "V": 0.77349
+    }
+   },
+   "n_params": 7043,
+   "norm": "none",
+   "previous": true,
+   "role": "trial",
+   "run_id": "aeef46292b3e494daf8593eb963dea38",
+   "session": "2026-11-28 10:59:40",
+   "sigma": 0.0,
+   "steps": 374,
+   "test_loss": [
+    1.16558,
+    1.38938,
+    1.38168,
+    1.41076,
+    1.57348,
+    1.89465,
+    1.68787,
+    1.92872
+   ],
+   "train_loss": [
+    0.36558,
+    0.16289,
+    0.11924,
+    0.10923,
+    0.09144,
+    0.08102,
+    0.07849,
+    0.07021
+   ],
+   "train_seconds": 107.084,
+   "width": 16
+  },
+  "distributions": {
+   "lr": {
+    "attributes": {
+     "high": 0.003,
+     "log": true,
+     "low": 0.0003,
+     "step": null
+    },
+    "name": "FloatDistribution"
+   },
+   "parallel": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "skip": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "state": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   }
+  },
+  "end_time": 1795860789753,
+  "experiment": "lesson2-study-paul-input-change-2-heartbeats",
+  "intermediate": [
+   {
+    "step": 0,
+    "value": 0.5193945204781899
+   },
+   {
+    "step": 1,
+    "value": 0.5419290413591291
+   },
+   {
+    "step": 2,
+    "value": 0.5785027851468375
+   },
+   {
+    "step": 3,
+    "value": 0.5402209627133113
+   },
+   {
+    "step": 4,
+    "value": 0.5690490005293914
+   },
+   {
+    "step": 5,
+    "value": 0.5610781253679241
+   },
+   {
+    "step": 6,
+    "value": 0.6133202164515911
+   },
+   {
+    "step": 7,
+    "value": 0.5698709538957356
+   }
+  ],
+  "params": {
+   "lr": 0.001930238775359629,
+   "parallel": true,
+   "skip": true,
+   "state": true
+  },
+  "run_id": "aeef46292b3e494daf8593eb963dea38",
+  "run_name": "trial-07",
+  "start_time": 1795860650898,
+  "status": "COMPLETE",
+  "study": {
+   "attrs": {
+    "budget": {
+     "epochs": 8,
+     "machine": "Windows AMD64",
+     "measured_on": "lesson2-notebook",
+     "minutes": 45.0,
+     "n_trials": 24,
+     "repeats": 3,
+     "searched_axes": 4,
+     "seconds_per_trial": 87.6,
+     "trials_per_axis": 6.0
+    },
+    "expects": "I'm expecting the recall to get higher, as the problem with S type heartbeats is not something that can easily be distinguished from individual heartbeats",
+    "idea": "whether combining two heartbeats for the input increases s recall",
+    "idea_author": "paul1997dijk",
+    "idea_id": "65dbfe7381b291c429e3c9c0f5cd9fa78692b6e3fa2e710fbcae0a035507dafe",
+    "idea_name": "furry-sardine-54",
+    "idea_parents": "mesmerizing-wildcat-27",
+    "objective": "macro_recall",
+    "origin": "study",
+    "search_space": "dataset=mitbih | previous=true | kernel_size=3 | width=16 | depth=3 | downsample=pool | norm=none | sigma=0 | dropout=0 | parallel in {false,true} | fold=false | skip in {false,true} | excite=false | state in {false,true} | gate=false | class_weight=1 | lr ~ logU(3e-4, 3e-3) | epochs=8",
+    "searched_axes": "lr,parallel,skip,state",
+    "space_is_default": false,
+    "study": "paul-input-change-2-heartbeats"
+   },
+   "direction": "maximize"
+  },
+  "value": 0.5698709538957356
+ },
+ "schema": "mads-run/2",
+ "student": "paul1997dijk",
+ "submitted_at": "2026-11-28T12:17:59Z"
+}
