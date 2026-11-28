@@ -1,0 +1,160 @@
+{
+ "code": {
+  "commit": "c4c2e6225eb63cec70379e95094a72e6f63f2897",
+  "dirty": false,
+  "remote": "https://github.com/raoulg/MADS-MachineLearning-course"
+ },
+ "lesson": 1,
+ "run": {
+  "artifacts": {
+   "architecture.json": {
+    "input_shape": [
+     2,
+     1024
+    ],
+    "layers": [
+     {
+      "depth": 0,
+      "input_shape": [
+       2,
+       1024
+      ],
+      "leaf": false,
+      "name": "Fusion",
+      "output_shape": [
+       2,
+       47
+      ],
+      "params": null,
+      "type": "Fusion"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       1024
+      ],
+      "leaf": true,
+      "name": "concatenate",
+      "output_shape": [
+       2,
+       1536
+      ],
+      "params": 0,
+      "type": "Concatenate2D"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       1536
+      ],
+      "leaf": true,
+      "name": "head",
+      "output_shape": [
+       2,
+       47
+      ],
+      "params": 72239,
+      "type": "Linear"
+     }
+    ],
+    "n_params": 72239,
+    "n_trainable": 72239,
+    "output_shape": [
+     2,
+     47
+    ],
+    "signature": "Concatenate2D > Linear(1536->47)",
+    "summary": "===================================================================================================================\nLayer (type:depth-idx)                   Input Shape               Output Shape              Param #\n===================================================================================================================\nFusion                                   [2, 1024]                 [2, 47]                   --\n\u251c\u2500Concatenate2D: 1-1                     [2, 1024]                 [2, 1536]                 --\n\u251c\u2500Linear: 1-2                            [2, 1536]                 [2, 47]                   72,239\n===================================================================================================================\nTotal params: 72,239\nTrainable params: 72,239\nNon-trainable params: 0\nTotal mult-adds (Units.MEGABYTES): 0.14\n===================================================================================================================\nInput size (MB): 0.01\nForward/backward pass size (MB): 0.00\nParams size (MB): 0.29\nEstimated Total Size (MB): 0.30\n==================================================================================================================="
+   },
+   "design.py": "\"\"\"Study 3 as a design: dinov2-large and resnet-18, each a branch of its own,\r\njoined into one linear head. It follows notebook 04's `fusion_architecture.py`,\r\nwith the encoders of study 3 and the plain `Linear` head it trained (notebook 06).\r\n\r\nRead it in atlas: the shape on every arrow, where the two branches join, and where the\r\n`project` option would add a projection per branch.\r\n\r\n    atlas-code-nightly view notebooks/1_representation_and_head/exercises\r\n\r\nRun it from the root of the course repository to see the shape after every stage:\r\n\r\n    uv run notebooks/1_representation_and_head/exercises/fusion_design.py\r\n\"\"\"\r\n\r\nfrom dataclasses import dataclass\r\n\r\nimport torch\r\nfrom beartype import beartype\r\nfrom jaxtyping import Float, jaxtyped\r\nfrom torch import Tensor, nn\r\nfrom vectormesh.components import Concatenate2D, Parallel, Projection\r\nfrom vectormesh.design import Design, option\r\n\r\n\r\n@dataclass(frozen=True)\r\nclass Config:\r\n    \"\"\"The choices of the design. Study 3 trained it without projections.\"\"\"\r\n\r\n    shared_dim: int = 128  # each branch projects to this width before the join\r\n    project: bool = False  # a projection per branch before the join\r\n\r\n\r\nclass Fusion(nn.Module):\r\n    \"\"\"Two streams, one per encoder, joined into one linear head. The model takes\r\n    the pair a joined loader gives. Each stage is a method whose signature states the\r\n    shape it takes and the shape it gives; `@jaxtyped` checks it on every call.\"\"\"\r\n\r\n    projections: Parallel\r\n\r\n    def __init__(\r\n        self, config: Config, dino_dim: int, resnet_dim: int, n_classes: int\r\n    ) -> None:\r\n        super().__init__()\r\n        self.config = config\r\n        self.dino_dim = dino_dim\r\n        self.resnet_dim = resnet_dim\r\n        self.shared_dim = config.shared_dim\r\n        self.joined_dim = (\r\n            2 * config.shared_dim if config.project else dino_dim + resnet_dim\r\n        )\r\n        self.n_classes = n_classes\r\n        # an optional stage's layers exist only in the subgraph that uses them\r\n        if config.project:\r\n            self.projections = Parallel(\r\n                [\r\n                    Projection(dino_dim, config.shared_dim),\r\n                    Projection(resnet_dim, config.shared_dim),\r\n                ]\r\n            )\r\n        self.concatenate = Concatenate2D()\r\n        self.head = nn.Linear(self.joined_dim, n_classes)\r\n\r\n    @option(\"project\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def project(\r\n        self,\r\n        streams: tuple[\r\n            Float[Tensor, \"batch {self.dino_dim}\"],\r\n            Float[Tensor, \"batch {self.resnet_dim}\"],\r\n        ],\r\n    ) -> tuple[\r\n        Float[Tensor, \"batch {self.shared_dim}\"],\r\n        Float[Tensor, \"batch {self.shared_dim}\"],\r\n    ]:\r\n        return self.projections(streams)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def join(\r\n        self, streams: tuple[Float[Tensor, \"batch _\"], Float[Tensor, \"batch _\"]]\r\n    ) -> Float[Tensor, \"batch {self.joined_dim}\"]:\r\n        return self.concatenate(streams)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def classify(\r\n        self, joined: Float[Tensor, \"batch {self.joined_dim}\"]\r\n    ) -> Float[Tensor, \"batch {self.n_classes}\"]:\r\n        return self.head(joined)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def forward(\r\n        self,\r\n        streams: tuple[\r\n            Float[Tensor, \"batch {self.dino_dim}\"],\r\n            Float[Tensor, \"batch {self.resnet_dim}\"],\r\n        ],\r\n    ) -> Float[Tensor, \"batch {self.n_classes}\"]:\r\n        if self.config.project:\r\n            streams = self.project(streams)\r\n        joined = self.join(streams)\r\n        return self.classify(joined)\r\n\r\n\r\n# The model and the config that switches its option, as a search reads them.\r\nDESIGN = Design(Fusion, Config)\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    # dinov2-large is 1024 wide, resnet-18 is 512, and DTD has 47 textures; two rows\r\n    # trace every shape\r\n    DESIGN.show(\r\n        (torch.randn(2, 1024), torch.randn(2, 512)),\r\n        dino_dim=1024,\r\n        resnet_dim=512,\r\n        n_classes=47,\r\n    )\r\n"
+  },
+  "attrs": {
+   "accuracy_std": 0.00262,
+   "architecture": "Concatenate2D > Linear(1536->47)",
+   "dataset": "dtd",
+   "n_params": 72239,
+   "n_repeats": 5,
+   "name": "fusion",
+   "role": "final",
+   "run_id": "528556f3977a4292b9d1d744191bce4a",
+   "session": "2026-11-23 07:46:58",
+   "train_seconds": 0.0
+  },
+  "distributions": {
+   "encoder": {
+    "attributes": {
+     "choices": [
+      "dinov2-large",
+      "dinov2-large+resnet-18"
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "head": {
+    "attributes": {
+     "choices": [
+      "linear",
+      "concat+linear"
+     ]
+    },
+    "name": "CategoricalDistribution"
+   }
+  },
+  "end_time": 1795416419824,
+  "experiment": "lesson1-study-patrick-fusion-dinov2-large-runs",
+  "intermediate": [
+   {
+    "step": 0,
+    "value": 0.85
+   },
+   {
+    "step": 1,
+    "value": 0.8436170212765958
+   },
+   {
+    "step": 2,
+    "value": 0.850531914893617
+   },
+   {
+    "step": 3,
+    "value": 0.850531914893617
+   },
+   {
+    "step": 4,
+    "value": 0.848404255319149
+   }
+  ],
+  "params": {
+   "dataset": "dtd",
+   "embed_dim": 1536,
+   "encoder": "dinov2-large+resnet-18",
+   "epochs": 15,
+   "head": "concat+linear",
+   "lr": 0.001,
+   "n_hidden_layers": 0,
+   "sigma": 0.0
+  },
+  "run_id": "528556f3977a4292b9d1d744191bce4a",
+  "run_name": "fusion",
+  "start_time": 1795416419658,
+  "status": "COMPLETE",
+  "study": {
+   "attrs": {
+    "expects": "fusie wint minder dan 1 punt op de lineaire dinov2-large head, vooral op de texturen waar resnet-18 beter is (lined, striped): resnet-18 is veel zwakker, dus het helpt alleen waar het anders is",
+    "idea": "fusie van dinov2-large met resnet-18: wint een tweede encoder van de lineaire head en op welke texturen?",
+    "idea_author": "patrick-wong-lun-hing",
+    "idea_id": "0352750a8502ac022bf6f5397ebb3a1f848f44470027ef05ddf929279c7c36da",
+    "idea_name": "peppy-lyrebird-17",
+    "idea_parents": "elaborate-quelea-63,striking-donkey-03",
+    "objective": "accuracy"
+   },
+   "direction": "maximize"
+  },
+  "value": 0.8486170212765958
+ },
+ "schema": "mads-run/2",
+ "student": "patrick-wong-lun-hing",
+ "submitted_at": "2026-11-23T07:24:08Z"
+}

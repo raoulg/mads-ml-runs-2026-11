@@ -1,0 +1,129 @@
+{
+ "code": {
+  "commit": "c4c2e6225eb63cec70379e95094a72e6f63f2897",
+  "dirty": false,
+  "remote": "https://github.com/raoulg/MADS-MachineLearning-course"
+ },
+ "lesson": 1,
+ "run": {
+  "artifacts": {
+   "architecture.json": {
+    "input_shape": [
+     2,
+     1024
+    ],
+    "layers": [
+     {
+      "depth": 0,
+      "input_shape": [
+       2,
+       1024
+      ],
+      "leaf": true,
+      "name": "Linear",
+      "output_shape": [
+       2,
+       47
+      ],
+      "params": 48175,
+      "type": "Linear"
+     }
+    ],
+    "n_params": 48175,
+    "n_trainable": 48175,
+    "output_shape": [
+     2,
+     47
+    ],
+    "signature": "Linear(1024->47)",
+    "summary": "===================================================================================================================\nLayer (type:depth-idx)                   Input Shape               Output Shape              Param #\n===================================================================================================================\nLinear                                   [2, 1024]                 [2, 47]                   48,175\n===================================================================================================================\nTotal params: 48,175\nTrainable params: 48,175\nNon-trainable params: 0\nTotal mult-adds (Units.MEGABYTES): 0.10\n===================================================================================================================\nInput size (MB): 0.01\nForward/backward pass size (MB): 0.00\nParams size (MB): 0.19\nEstimated Total Size (MB): 0.20\n==================================================================================================================="
+   }
+  },
+  "attrs": {
+   "accuracy_std": 0.00287,
+   "architecture": "Linear(1024->47)",
+   "dataset": "dtd",
+   "n_params": 48175,
+   "n_repeats": 5,
+   "name": "baseline",
+   "role": "baseline",
+   "run_id": "0f53c665155f4c17ba6f8e6be3d52ddb",
+   "session": "2026-11-23 07:46:58",
+   "train_seconds": 0.0
+  },
+  "distributions": {
+   "encoder": {
+    "attributes": {
+     "choices": [
+      "dinov2-large",
+      "dinov2-large+resnet-18"
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "head": {
+    "attributes": {
+     "choices": [
+      "linear",
+      "concat+linear"
+     ]
+    },
+    "name": "CategoricalDistribution"
+   }
+  },
+  "end_time": 1795416419632,
+  "experiment": "lesson1-study-patrick-fusion-dinov2-large-runs",
+  "intermediate": [
+   {
+    "step": 0,
+    "value": 0.8436170212765958
+   },
+   {
+    "step": 1,
+    "value": 0.8345744680851064
+   },
+   {
+    "step": 2,
+    "value": 0.8393617021276596
+   },
+   {
+    "step": 3,
+    "value": 0.8398936170212766
+   },
+   {
+    "step": 4,
+    "value": 0.8393617021276596
+   }
+  ],
+  "params": {
+   "dataset": "dtd",
+   "embed_dim": 1024,
+   "encoder": "dinov2-large",
+   "epochs": 15,
+   "head": "linear",
+   "lr": 0.001,
+   "n_hidden_layers": 0,
+   "sigma": 0.0
+  },
+  "run_id": "0f53c665155f4c17ba6f8e6be3d52ddb",
+  "run_name": "baseline",
+  "start_time": 1795416419455,
+  "status": "COMPLETE",
+  "study": {
+   "attrs": {
+    "expects": "fusie wint minder dan 1 punt op de lineaire dinov2-large head, vooral op de texturen waar resnet-18 beter is (lined, striped): resnet-18 is veel zwakker, dus het helpt alleen waar het anders is",
+    "idea": "fusie van dinov2-large met resnet-18: wint een tweede encoder van de lineaire head en op welke texturen?",
+    "idea_author": "patrick-wong-lun-hing",
+    "idea_id": "0352750a8502ac022bf6f5397ebb3a1f848f44470027ef05ddf929279c7c36da",
+    "idea_name": "peppy-lyrebird-17",
+    "idea_parents": "elaborate-quelea-63,striking-donkey-03",
+    "objective": "accuracy"
+   },
+   "direction": "maximize"
+  },
+  "value": 0.8393617021276596
+ },
+ "schema": "mads-run/2",
+ "student": "patrick-wong-lun-hing",
+ "submitted_at": "2026-11-23T07:24:08Z"
+}

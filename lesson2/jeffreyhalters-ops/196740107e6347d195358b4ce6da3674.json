@@ -1,0 +1,713 @@
+{
+ "code": {
+  "commit": "49dba06316b0c7e85f5716106ebea1e5dc0b6d50",
+  "dirty": true,
+  "remote": "https://github.com/raoulg/MADS-MachineLearning-course.git"
+ },
+ "lesson": 2,
+ "run": {
+  "artifacts": {
+   "architecture.json": {
+    "input_shape": [
+     2,
+     187,
+     1
+    ],
+    "layers": [
+     {
+      "depth": 0,
+      "input_shape": [
+       2,
+       187,
+       1
+      ],
+      "leaf": false,
+      "name": "Beats",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": null,
+      "type": "Beats"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       187,
+       1
+      ],
+      "leaf": true,
+      "name": "noise",
+      "output_shape": [
+       2,
+       187,
+       1
+      ],
+      "params": 0,
+      "type": "GaussianNoise"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       187,
+       1
+      ],
+      "leaf": false,
+      "name": "narrow",
+      "output_shape": [
+       2,
+       187,
+       32
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       1,
+       187
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       32,
+       187
+      ],
+      "params": 320,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       187,
+       32
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       187,
+       32
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       187,
+       32
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       187,
+       32
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 4,
+      "input_shape": [
+       2,
+       32,
+       187
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       32,
+       187
+      ],
+      "params": 9248,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       187,
+       32
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       187,
+       32
+      ],
+      "params": 0,
+      "type": "GELU"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       187,
+       32
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       93,
+       32
+      ],
+      "params": null,
+      "type": "Pool1D"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       32,
+       187
+      ],
+      "leaf": true,
+      "name": "pool",
+      "output_shape": [
+       2,
+       32,
+       93
+      ],
+      "params": 0,
+      "type": "MaxPool1d"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       93,
+       32
+      ],
+      "leaf": false,
+      "name": "1",
+      "output_shape": [
+       2,
+       93,
+       32
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       93,
+       32
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       93,
+       32
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 4,
+      "input_shape": [
+       2,
+       32,
+       93
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       32,
+       93
+      ],
+      "params": 9248,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       93,
+       32
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       93,
+       32
+      ],
+      "params": 0,
+      "type": "GELU"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       93,
+       32
+      ],
+      "leaf": false,
+      "name": "1",
+      "output_shape": [
+       2,
+       46,
+       32
+      ],
+      "params": null,
+      "type": "Pool1D"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       32,
+       93
+      ],
+      "leaf": true,
+      "name": "pool",
+      "output_shape": [
+       2,
+       32,
+       46
+      ],
+      "params": 0,
+      "type": "MaxPool1d"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       46,
+       32
+      ],
+      "leaf": false,
+      "name": "2",
+      "output_shape": [
+       2,
+       46,
+       32
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       46,
+       32
+      ],
+      "leaf": false,
+      "name": "0",
+      "output_shape": [
+       2,
+       46,
+       32
+      ],
+      "params": null,
+      "type": "Conv1D"
+     },
+     {
+      "depth": 4,
+      "input_shape": [
+       2,
+       32,
+       46
+      ],
+      "leaf": true,
+      "name": "conv",
+      "output_shape": [
+       2,
+       32,
+       46
+      ],
+      "params": 9248,
+      "type": "Conv1d"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       46,
+       32
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       46,
+       32
+      ],
+      "params": 0,
+      "type": "GELU"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       46,
+       32
+      ],
+      "leaf": false,
+      "name": "2",
+      "output_shape": [
+       2,
+       23,
+       32
+      ],
+      "params": null,
+      "type": "Pool1D"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       32,
+       46
+      ],
+      "leaf": true,
+      "name": "pool",
+      "output_shape": [
+       2,
+       32,
+       23
+      ],
+      "params": 0,
+      "type": "MaxPool1d"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       187,
+       1
+      ],
+      "leaf": false,
+      "name": "ecg",
+      "output_shape": [
+       2,
+       16
+      ],
+      "params": null,
+      "type": "ECGFeatures"
+     },
+     {
+      "depth": 2,
+      "input_shape": [
+       2,
+       16
+      ],
+      "leaf": false,
+      "name": "proj",
+      "output_shape": [
+       2,
+       16
+      ],
+      "params": null,
+      "type": "Sequential"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       16
+      ],
+      "leaf": true,
+      "name": "0",
+      "output_shape": [
+       2,
+       16
+      ],
+      "params": 272,
+      "type": "Linear"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       16
+      ],
+      "leaf": true,
+      "name": "1",
+      "output_shape": [
+       2,
+       16
+      ],
+      "params": 32,
+      "type": "LayerNorm"
+     },
+     {
+      "depth": 3,
+      "input_shape": [
+       2,
+       16
+      ],
+      "leaf": true,
+      "name": "2",
+      "output_shape": [
+       2,
+       16
+      ],
+      "params": 0,
+      "type": "GELU"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       752
+      ],
+      "leaf": true,
+      "name": "drop",
+      "output_shape": [
+       2,
+       752
+      ],
+      "params": 0,
+      "type": "Dropout"
+     },
+     {
+      "depth": 1,
+      "input_shape": [
+       2,
+       752
+      ],
+      "leaf": true,
+      "name": "classifier",
+      "output_shape": [
+       2,
+       3
+      ],
+      "params": 2259,
+      "type": "Linear"
+     }
+    ],
+    "n_params": 30627,
+    "n_trainable": 30627,
+    "output_shape": [
+     2,
+     3
+    ],
+    "signature": "GaussianNoise > Conv1d(187->187) > Conv1d(187->187) > GELU > MaxPool1d > Conv1d(93->93) > GELU > MaxPool1d > Conv1d(46->46) > GELU > MaxPool1d > Linear(16->16) > LayerNorm(16->16) > GELU > Dropout > Linear(752->3)",
+    "summary": "===================================================================================================================\nLayer (type:depth-idx)                   Input Shape               Output Shape              Param #\n===================================================================================================================\nBeats                                    [2, 187, 1]               [2, 3]                    --\n\u251c\u2500GaussianNoise: 1-1                     [2, 187, 1]               [2, 187, 1]               --\n\u251c\u2500Conv1D: 1-2                            [2, 187, 1]               [2, 187, 32]              --\n\u2502    \u2514\u2500Conv1d: 2-1                       [2, 1, 187]               [2, 32, 187]              320\n\u251c\u2500ModuleList: 1-7                        --                        --                        (recursive)\n\u2502    \u2514\u2500Sequential: 2-2                   [2, 187, 32]              [2, 187, 32]              --\n\u2502    \u2502    \u2514\u2500Conv1D: 3-1                  [2, 187, 32]              [2, 187, 32]              --\n\u2502    \u2502    \u2502    \u2514\u2500Conv1d: 4-1             [2, 32, 187]              [2, 32, 187]              9,248\n\u2502    \u2502    \u2514\u2500GELU: 3-2                    [2, 187, 32]              [2, 187, 32]              --\n\u251c\u2500ModuleList: 1-8                        --                        --                        --\n\u2502    \u2514\u2500Pool1D: 2-3                       [2, 187, 32]              [2, 93, 32]               --\n\u2502    \u2502    \u2514\u2500MaxPool1d: 3-3               [2, 32, 187]              [2, 32, 93]               --\n\u251c\u2500ModuleList: 1-7                        --                        --                        (recursive)\n\u2502    \u2514\u2500Sequential: 2-4                   [2, 93, 32]               [2, 93, 32]               --\n\u2502    \u2502    \u2514\u2500Conv1D: 3-4                  [2, 93, 32]               [2, 93, 32]               --\n\u2502    \u2502    \u2502    \u2514\u2500Conv1d: 4-2             [2, 32, 93]               [2, 32, 93]               9,248\n\u2502    \u2502    \u2514\u2500GELU: 3-5                    [2, 93, 32]               [2, 93, 32]               --\n\u251c\u2500ModuleList: 1-8                        --                        --                        --\n\u2502    \u2514\u2500Pool1D: 2-5                       [2, 93, 32]               [2, 46, 32]               --\n\u2502    \u2502    \u2514\u2500MaxPool1d: 3-6               [2, 32, 93]               [2, 32, 46]               --\n\u251c\u2500ModuleList: 1-7                        --                        --                        (recursive)\n\u2502    \u2514\u2500Sequential: 2-6                   [2, 46, 32]               [2, 46, 32]               --\n\u2502    \u2502    \u2514\u2500Conv1D: 3-7                  [2, 46, 32]               [2, 46, 32]               --\n\u2502    \u2502    \u2502    \u2514\u2500Conv1d: 4-3             [2, 32, 46]               [2, 32, 46]               9,248\n\u2502    \u2502    \u2514\u2500GELU: 3-8                    [2, 46, 32]               [2, 46, 32]               --\n\u251c\u2500ModuleList: 1-8                        --                        --                        --\n\u2502    \u2514\u2500Pool1D: 2-7                       [2, 46, 32]               [2, 23, 32]               --\n\u2502    \u2502    \u2514\u2500MaxPool1d: 3-9               [2, 32, 46]               [2, 32, 23]               --\n\u251c\u2500ECGFeatures: 1-9                       [2, 187, 1]               [2, 16]                   --\n\u2502    \u2514\u2500Sequential: 2-8                   [2, 16]                   [2, 16]                   --\n\u2502    \u2502    \u2514\u2500Linear: 3-10                 [2, 16]                   [2, 16]                   272\n\u2502    \u2502    \u2514\u2500LayerNorm: 3-11              [2, 16]                   [2, 16]                   32\n\u2502    \u2502    \u2514\u2500GELU: 3-12                   [2, 16]                   [2, 16]                   --\n\u251c\u2500Dropout: 1-10                          [2, 752]                  [2, 752]                  --\n\u251c\u2500Linear: 1-11                           [2, 752]                  [2, 3]                    2,259\n===================================================================================================================\nTotal params: 30,627\nTrainable params: 30,627\nNon-trainable params: 0\nTotal mult-adds (Units.MEGABYTES): 6.15\n===================================================================================================================\nInput size (MB): 0.00\nForward/backward pass size (MB): 0.26\nParams size (MB): 0.12\nEstimated Total Size (MB): 0.39\n==================================================================================================================="
+   },
+   "design.py": "\"\"\"The design of your study: a model of one heartbeat as a supergraph, one typed stage per\r\noperation.\r\n\r\nA beat is `(batch, 187, 1)`: 187 steps, one channel. The design reads it with kernels,\r\nshortens it block by block, and classifies it as N, S or V. Every block the search may\r\nleave out is a choice in `forward` (`if self.config.state:`), and `@option(\"state\")` on\r\nits stage names the axis of the search space that decides it. The config a trial draws\r\npicks the subgraph that is built. `option` and `Design` are in `vectormesh.design`, the\r\nsame for every lesson.\r\n\r\nThe choices of this design, each a bet about the data (slide 18):\r\n\r\n- `kernel_size`, `width`, `depth`: how far one position sees, through depth;\r\n- `downsample`: a pool of 2 or a kernel with stride 2 after every block;\r\n- `parallel`: a second, wider kernel beside the first, concatenated on the channels;\r\n- `fold`: the beat folded to `(11, 17)` and read by a 2D kernel, beside the 1D one;\r\n- `skip`: a skip around every block;\r\n- `excite`: squeeze-excite on the channels of every block;\r\n- `state`: a GRU over the shortened beat;\r\n- `gate`: a gate on the features before the head;\r\n- `sigma`, `norm`, `dropout`: input noise, a norm in every block, dropout before the head.\r\n\r\nRead it in atlas before you train anything: the shape on every arrow, and where a choice\r\nleaves a stage out.\r\n\r\n    atlas-code-nightly view notebooks/2_kernels_state_and_gates/exercises\r\n\r\nRun it from the root of the course repository to build every combination of the options\r\nand see the shape after every stage:\r\n\r\n    uv run notebooks/2_kernels_state_and_gates/exercises/designs.py\r\n\r\nTo design your own:\r\n\r\n1. Add a stage: a method of `Beats` whose signature says the shape it takes and the\r\n   shape it gives, under `@jaxtyped(typechecker=beartype)`. Build its layers in\r\n   `__init__`, only when the config chooses it.\r\n2. If the search may leave it out, mark it `@option(\"<axis>\")`, give `Config` a field\r\n   `<axis>: bool = False`, and call it in `forward` under `if self.config.<axis>:`.\r\n3. Add the axis to `SPACE` in `study.py`: `\"<axis>\": Choice([False, True])`.\r\n\"\"\"\r\n\r\nfrom dataclasses import dataclass\r\nfrom typing import Literal\r\n\r\nimport torch\r\nfrom beartype import beartype\r\nfrom jaxtyping import Float, jaxtyped\r\nfrom torch import Tensor, nn\r\nfrom vectormesh.components import (\r\n    Conv1D,\r\n    Conv2D,\r\n    Gate,\r\n    GaussianNoise,\r\n    Norm,\r\n    Pool1D,\r\n    Recurrent,\r\n)\r\nfrom vectormesh.design import Design, option\r\n\r\nSTEPS = 187\r\nFOLD = (11, 17)  # 11 * 17 = 187: the beat as a grid of 11 rows of 17 steps\r\nECG_DIM = 16  # projected size of the domain-knowledge ECG feature branch\r\n\r\n\r\n@dataclass(frozen=True)\r\nclass Config:\r\n    \"\"\"The choices of the design. The search space draws them (`SPACE` in `study.py`);\r\n    a field the space leaves out keeps its default here.\"\"\"\r\n\r\n    kernel_size: int = 5\r\n    width: int = 32  # channels after the first kernel\r\n    depth: int = 3  # blocks, each followed by a downsample of 2\r\n    downsample: Literal[\"pool\", \"stride\"] = \"pool\"\r\n    norm: Literal[\"none\", \"batch\", \"layer\"] = \"none\"\r\n    sigma: float = 0.0  # Gaussian noise on the beat, relative to its spread\r\n    dropout: float = 0.0  # before the head\r\n    wide_kernel: int = 15  # the second kernel of `parallel`\r\n    parallel: bool = False\r\n    fold: bool = False\r\n    skip: bool = False\r\n    excite: bool = False\r\n    state: bool = False\r\n    excite_end: bool = False\r\n    gate: bool = False\r\n    ecg_features: bool = False\r\n\r\n\r\ndef shortened(steps: int, depth: int, downsample: str) -> int:\r\n    \"\"\"The length of the sequence after `depth` downsamples of 2.\"\"\"\r\n    for _ in range(depth):\r\n        steps = steps // 2 if downsample == \"pool\" else (steps + 1) // 2\r\n    return steps\r\n\r\n\r\nclass SqueezeExcite(nn.Module):\r\n    \"\"\"A gate on whole channels: squeeze the sequence axis away, then a narrow network\r\n    and a sigmoid give every channel one multiplier between 0 and 1.\"\"\"\r\n\r\n    def __init__(self, channels: int, reduction: int = 4) -> None:\r\n        super().__init__()\r\n        narrow = max(channels // reduction, 1)\r\n        self.excite = nn.Sequential(\r\n            nn.Linear(channels, narrow),\r\n            nn.GELU(),\r\n            nn.Linear(narrow, channels),\r\n            nn.Sigmoid(),\r\n        )\r\n\r\n    def forward(self, x: Tensor) -> Tensor:\r\n        return x * self.excite(x.mean(dim=1)).unsqueeze(1)\r\n\r\n\r\nclass ResidualSqueezeExcite(nn.Module):\r\n    \"\"\"Squeeze-and-Excite placed at the end with a skip connection around it, so\r\n    channels are reweighted without destroying the underlying features.\"\"\"\r\n\r\n    def __init__(self, channels: int, reduction: int = 4) -> None:\r\n        super().__init__()\r\n        self.se = SqueezeExcite(channels, reduction=reduction)\r\n\r\n    def forward(self, x: Tensor) -> Tensor:\r\n        return x + self.se(x)\r\n\r\n\r\nclass ECGFeatures(nn.Module):\r\n    \"\"\"Domain-knowledge statistics extracted directly from one 187-step beat:\r\n    QRS width and peak shape (0:25), first-derivative steepness, active beat length\r\n    before zero-padding, and zone summaries for ST-T (25:75) and late (75:140).\"\"\"\r\n\r\n    def __init__(self, out_dim: int = ECG_DIM) -> None:\r\n        super().__init__()\r\n        self.proj = nn.Sequential(\r\n            nn.Linear(16, out_dim),\r\n            nn.LayerNorm(out_dim),\r\n            nn.GELU(),\r\n        )\r\n\r\n    def forward(self, beat: Tensor) -> Tensor:\r\n        x = beat.squeeze(-1)  # (batch, 187)\r\n        qrs = x[:, :25]\r\n        stt = x[:, 25:75]\r\n        late = x[:, 75:140]\r\n        diff = x[:, 1:] - x[:, :-1]\r\n        qrs_diff = diff[:, :20]\r\n\r\n        qrs_max = qrs.max(dim=1).values\r\n        qrs_min = qrs.min(dim=1).values\r\n        qrs_width = (qrs > 0.5 * qrs_max.unsqueeze(1)).to(x.dtype).mean(dim=1)\r\n        qrs_energy = (qrs**2).mean(dim=1)\r\n\r\n        qrs_max_slope = qrs_diff.abs().max(dim=1).values\r\n        qrs_min_diff = qrs_diff.min(dim=1).values\r\n        qrs_diff_std = qrs_diff.std(dim=1)\r\n        full_max_slope = diff.abs().max(dim=1).values\r\n\r\n        active = (x.abs() > 1e-4).to(x.dtype)\r\n        active_frac = active.mean(dim=1)\r\n        idx = torch.arange(1, x.shape[1] + 1, device=x.device, dtype=x.dtype)\r\n        last_active = (active * idx).max(dim=1).values / x.shape[1]\r\n\r\n        stt_mean = stt.mean(dim=1)\r\n        stt_std = stt.std(dim=1)\r\n        stt_max = stt.max(dim=1).values\r\n        late_mean = late.mean(dim=1)\r\n        late_energy = (late**2).mean(dim=1)\r\n        energy_ratio = (late_energy / (qrs_energy + 1e-5)).clamp(max=2.0) / 2.0\r\n\r\n        stats = torch.stack(\r\n            [\r\n                qrs_max,\r\n                qrs_min,\r\n                qrs_width,\r\n                qrs_energy,\r\n                qrs_max_slope,\r\n                qrs_min_diff,\r\n                qrs_diff_std,\r\n                full_max_slope,\r\n                active_frac,\r\n                last_active,\r\n                stt_mean,\r\n                stt_std,\r\n                stt_max,\r\n                late_mean,\r\n                late_energy,\r\n                energy_ratio,\r\n            ],\r\n            dim=1,\r\n        )\r\n        return self.proj(stats)\r\n\r\n\r\nclass Beats(nn.Module):\r\n    \"\"\"A beat in, a score per class out. Each stage is a method whose signature states the\r\n    shape it takes and the shape it gives, in the widths this model was built with, and\r\n    `@jaxtyped` checks that statement on every call.\"\"\"\r\n\r\n    wide: Conv1D\r\n    join: Conv1D\r\n    grid: Conv2D\r\n    excitations: nn.ModuleList\r\n    recurrent: Recurrent\r\n    end_excitation: ResidualSqueezeExcite\r\n    gating: Gate\r\n    ecg: ECGFeatures\r\n\r\n    def __init__(self, config: Config, n_classes: int) -> None:\r\n        super().__init__()\r\n        if config.depth < 1:\r\n            raise ValueError(\r\n                \"Beats: depth must be at least 1; without a block the model is the \"\r\n                \"linear baseline, which study.py measures by itself\"\r\n            )\r\n        self.config = config\r\n        self.width = config.width\r\n        self.n_classes = n_classes\r\n        self.steps = STEPS\r\n        self.short = shortened(STEPS, config.depth, config.downsample)\r\n        width, k = config.width, config.kernel_size\r\n\r\n        self.noise = GaussianNoise(sigma=config.sigma)\r\n        self.narrow = Conv1D(1, width, k, padding=k // 2)\r\n        # an optional stage's layers exist only in the subgraph that uses them, so\r\n        # n_params counts what the trial trained\r\n        if config.parallel:\r\n            wk = config.wide_kernel\r\n            self.wide = Conv1D(1, width, wk, padding=wk // 2)\r\n            self.join = Conv1D(2 * width, width, 1)\r\n        if config.fold:\r\n            self.grid = Conv2D(1, width, 3, padding=1)\r\n        self.blocks = nn.ModuleList()\r\n        self.downs = nn.ModuleList()\r\n        for _ in range(config.depth):\r\n            layers: list[nn.Module] = [Conv1D(width, width, k, padding=k // 2)]\r\n            if config.norm != \"none\":\r\n                layers.append(Norm(width, kind=config.norm))\r\n            layers.append(nn.GELU())\r\n            self.blocks.append(nn.Sequential(*layers))\r\n            self.downs.append(\r\n                Pool1D(2)\r\n                if config.downsample == \"pool\"\r\n                else Conv1D(width, width, 3, stride=2, padding=1)\r\n            )\r\n        if config.excite:\r\n            self.excitations = nn.ModuleList(\r\n                SqueezeExcite(width) for _ in range(config.depth)\r\n            )\r\n        if config.state:\r\n            self.recurrent = Recurrent(width, width, kind=\"gru\")\r\n        if config.excite_end:\r\n            self.end_excitation = ResidualSqueezeExcite(width)\r\n        if config.gate:\r\n            self.gating = Gate(width)\r\n        self.flat_dim = self.short * width\r\n        if config.ecg_features:\r\n            self.ecg = ECGFeatures(ECG_DIM)\r\n            self.head_dim = self.flat_dim + ECG_DIM\r\n        else:\r\n            self.head_dim = self.flat_dim\r\n        self.drop = nn.Dropout(config.dropout)\r\n        self.classifier = nn.Linear(self.head_dim, n_classes)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def perturb(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.steps} 1\"]:\r\n        return self.noise(beat)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def kernel(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.steps} {self.width}\"]:\r\n        return self.narrow(beat)\r\n\r\n    @option(\"parallel\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def parallel(\r\n        self,\r\n        beat: Float[Tensor, \"batch {self.steps} 1\"],\r\n        narrow: Float[Tensor, \"batch {self.steps} {self.width}\"],\r\n    ) -> Float[Tensor, \"batch {self.steps} {self.width}\"]:\r\n        both = torch.cat([narrow, self.wide(beat)], dim=-1)  # (batch, steps, 2 width)\r\n        return self.join(both)\r\n\r\n    @option(\"fold\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def fold(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.steps} {self.width}\"]:\r\n        grid = beat.reshape(-1, 1, *FOLD)  # (batch, 1, 11, 17)\r\n        seen = self.grid(grid)  # (batch, width, 11, 17)\r\n        return seen.flatten(2).transpose(1, 2)  # back to (batch, 187, width)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def block(\r\n        self, features: Float[Tensor, \"batch steps {self.width}\"], i: int\r\n    ) -> Float[Tensor, \"batch steps {self.width}\"]:\r\n        return self.blocks[i](features)\r\n\r\n    @option(\"skip\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def skip(\r\n        self,\r\n        features: Float[Tensor, \"batch steps {self.width}\"],\r\n        block: Float[Tensor, \"batch steps {self.width}\"],\r\n    ) -> Float[Tensor, \"batch steps {self.width}\"]:\r\n        return features + block\r\n\r\n    @option(\"excite\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def excite(\r\n        self, features: Float[Tensor, \"batch steps {self.width}\"], i: int\r\n    ) -> Float[Tensor, \"batch steps {self.width}\"]:\r\n        return self.excitations[i](features)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def downsample(\r\n        self, features: Float[Tensor, \"batch steps {self.width}\"], i: int\r\n    ) -> Float[Tensor, \"batch shorter {self.width}\"]:\r\n        return self.downs[i](features)\r\n\r\n    @option(\"state\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def state(\r\n        self, features: Float[Tensor, \"batch {self.short} {self.width}\"]\r\n    ) -> Float[Tensor, \"batch {self.short} {self.width}\"]:\r\n        return self.recurrent(features)\r\n\r\n    @option(\"excite_end\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def excite_end(\r\n        self, features: Float[Tensor, \"batch {self.short} {self.width}\"]\r\n    ) -> Float[Tensor, \"batch {self.short} {self.width}\"]:\r\n        return self.end_excitation(features)\r\n\r\n    @option(\"gate\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def gate(\r\n        self, features: Float[Tensor, \"batch {self.short} {self.width}\"]\r\n    ) -> Float[Tensor, \"batch {self.short} {self.width}\"]:\r\n        return self.gating(features)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def flatten(\r\n        self, features: Float[Tensor, \"batch {self.short} {self.width}\"]\r\n    ) -> Float[Tensor, \"batch {self.flat_dim}\"]:\r\n        return features.flatten(1)\r\n\r\n    @option(\"ecg_features\")\r\n    @jaxtyped(typechecker=beartype)\r\n    def ecg_features(\r\n        self,\r\n        beat: Float[Tensor, \"batch {self.steps} 1\"],\r\n        flat: Float[Tensor, \"batch {self.flat_dim}\"],\r\n    ) -> Float[Tensor, \"batch {self.head_dim}\"]:\r\n        return torch.cat([flat, self.ecg(beat)], dim=1)\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def classify(\r\n        self, flat: Float[Tensor, \"batch {self.head_dim}\"]\r\n    ) -> Float[Tensor, \"batch {self.n_classes}\"]:\r\n        return self.classifier(self.drop(flat))\r\n\r\n    @jaxtyped(typechecker=beartype)\r\n    def forward(\r\n        self, beat: Float[Tensor, \"batch {self.steps} 1\"]\r\n    ) -> Float[Tensor, \"batch {self.n_classes}\"]:\r\n        beat = self.perturb(beat)\r\n        features = self.kernel(beat)\r\n        if self.config.parallel:\r\n            features = self.parallel(beat, features)\r\n        if self.config.fold:\r\n            features = features + self.fold(beat)\r\n        for i in range(self.config.depth):\r\n            block = self.block(features, i)\r\n            if self.config.skip:\r\n                block = self.skip(features, block)\r\n            if self.config.excite:\r\n                block = self.excite(block, i)\r\n            features = self.downsample(block, i)\r\n        if self.config.state:\r\n            features = self.state(features)\r\n        if self.config.excite_end:\r\n            features = self.excite_end(features)\r\n        if self.config.gate:\r\n            features = self.gate(features)\r\n        flat = self.flatten(features)\r\n        if self.config.ecg_features:\r\n            flat = self.ecg_features(beat, flat)\r\n        return self.classify(flat)\r\n\r\n\r\n# The model and the config that switches its options, as the study reads them.\r\nDESIGN = Design(Beats, Config)\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    # two beats are enough to trace every shape\r\n    DESIGN.show(torch.randn(2, STEPS, 1), n_classes=3)\r\n"
+  },
+  "attrs": {
+   "accuracy": [
+    0.91201,
+    0.85926,
+    0.81934,
+    0.84205
+   ],
+   "architecture": "GaussianNoise > Conv1d(187->187) > Conv1d(187->187) > GELU > MaxPool1d > Conv1d(93->93) > GELU > MaxPool1d > Conv1d(46->46) > GELU > MaxPool1d > Linear(16->16) > LayerNorm(16->16) > GELU > Dropout > Linear(752->3)",
+   "channels": 1,
+   "class_weight": 0.5,
+   "config": {
+    "class_weight": 0.5,
+    "dataset": "mitbih",
+    "depth": 3,
+    "downsample": "pool",
+    "dropout": 0.0,
+    "ecg_features": true,
+    "epochs": 8,
+    "excite": false,
+    "excite_end": false,
+    "fold": false,
+    "gate": false,
+    "kernel_size": 9,
+    "lr": 0.001390432366769336,
+    "norm": "none",
+    "parallel": false,
+    "sigma": 0.0,
+    "skip": true,
+    "state": false,
+    "width": 32
+   },
+   "confusion": {
+    "classes": [
+     "N",
+     "S",
+     "V"
+    ],
+    "counts": [
+     [
+      9643,
+      156,
+      1185
+     ],
+     [
+      145,
+      13,
+      224
+     ],
+     [
+      237,
+      8,
+      766
+     ]
+    ]
+   },
+   "dataset": "mitbih",
+   "depth": 3,
+   "downsample": "pool",
+   "dropout": 0.0,
+   "ecg_features": true,
+   "epochs": 8,
+   "excite": false,
+   "fold": false,
+   "gate": false,
+   "kernel_size": 9,
+   "macro_recall": [
+    0.55198,
+    0.53522,
+    0.52937,
+    0.55654
+   ],
+   "metrics": {
+    "accuracy": 0.84205,
+    "f1": {
+     "N": 0.91799,
+     "S": 0.04651,
+     "V": 0.48085
+    },
+    "macro_recall": 0.55654,
+    "precision": {
+     "N": 0.9619,
+     "S": 0.07345,
+     "V": 0.35218
+    },
+    "recall": {
+     "N": 0.87791,
+     "S": 0.03403,
+     "V": 0.75767
+    }
+   },
+   "n_params": 30627,
+   "norm": "none",
+   "parallel": false,
+   "role": "trial",
+   "run_id": "196740107e6347d195358b4ce6da3674",
+   "session": "2026-11-26 20:07:36",
+   "sigma": 0.0,
+   "skip": true,
+   "steps": 187,
+   "test_loss": [
+    0.84132,
+    1.19297,
+    1.45885,
+    1.44593
+   ],
+   "train_loss": [
+    0.26303,
+    0.11012,
+    0.08906,
+    0.07199
+   ],
+   "train_seconds": 29.285,
+   "width": 32
+  },
+  "distributions": {
+   "excite_end": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   },
+   "lr": {
+    "attributes": {
+     "high": 0.003,
+     "log": true,
+     "low": 0.0003,
+     "step": null
+    },
+    "name": "FloatDistribution"
+   },
+   "state": {
+    "attributes": {
+     "choices": [
+      false,
+      true
+     ]
+    },
+    "name": "CategoricalDistribution"
+   }
+  },
+  "end_time": 1795720808679,
+  "experiment": "lesson2-study-jeffrey-gru-excite",
+  "intermediate": [
+   {
+    "step": 0,
+    "value": 0.5519834400688909
+   },
+   {
+    "step": 1,
+    "value": 0.5352161558719423
+   },
+   {
+    "step": 2,
+    "value": 0.5293729097389744
+   },
+   {
+    "step": 3,
+    "value": 0.5565368065457782
+   }
+  ],
+  "params": {
+   "excite_end": false,
+   "lr": 0.001390432366769336,
+   "state": false
+  },
+  "run_id": "196740107e6347d195358b4ce6da3674",
+  "run_name": "trial-07",
+  "start_time": 1795720769128,
+  "status": "PRUNED",
+  "study": {
+   "attrs": {
+    "budget": {
+     "epochs": 8,
+     "machine": "Windows AMD64",
+     "measured_on": "lesson2-notebook",
+     "minutes": 60.0,
+     "n_trials": 14,
+     "repeats": 3,
+     "searched_axes": 3,
+     "seconds_per_trial": 174.12,
+     "trials_per_axis": 4.7
+    },
+    "expects": "Door de skips (ook rond Squeeze & Excite op het einde) verwacht ik dat er minder data door de lagen beschadigd raakt, terwijl GRU en ECG-features het model dwingen te zoeken naar tijdreeks- en statistische patronen (gedwongen bias) voor betere scores.",
+    "idea": "gru (state) en squeeze & excite met skip op het einde bovenop skip-cnn en ecg-features (class_weight=0.5)",
+    "idea_author": "jeffreyhalters-ops",
+    "idea_id": "5f92388d1ce64aaa02f2589bf4c0579a73a59716aafdb76463b90ff0da738c56",
+    "idea_name": "decorated-horse-56",
+    "idea_parents": "blissful-ocelot-29",
+    "objective": "macro_recall",
+    "origin": "study",
+    "search_space": "dataset=mitbih | kernel_size=9 | width=32 | depth=3 | downsample=pool | norm=none | sigma=0 | dropout=0 | parallel=false | fold=false | skip=true | excite=false | state in {false,true} | excite_end in {false,true} | gate=false | ecg_features=true | class_weight=0.5 | lr ~ logU(3e-4, 3e-3) | epochs=8",
+    "searched_axes": "excite_end,lr,state",
+    "space_is_default": false,
+    "study": "jeffrey-gru-excite"
+   },
+   "direction": "maximize"
+  },
+  "value": 0.5565368065457782
+ },
+ "schema": "mads-run/2",
+ "student": "jeffreyhalters-ops",
+ "submitted_at": "2026-11-26T20:29:49Z"
+}
